@@ -1,0 +1,87 @@
+[core]
+    editor = subl -n -w
+    excludesfile = ~/.gitignore
+
+[color]
+    ui = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = cyan
+
+[credential]
+    helper = osxkeychain
+
+[merge]
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+    tool = opendiff
+
+[diff]
+    tool = opendiff
+
+[alias]
+    # View the SHA, description, and history graph of the latest 20 commits
+    l = log --pretty=oneline -n 20 --graph
+    # View the current working tree status using the short format
+    s = status
+    # Diff
+    d = diff --patch-with-stat
+    # Pull in remote changes for the current repository and all its submodules
+    p = !"git pull; git submodule foreach git pull origin master"
+    # Commit all changes and add message inline
+    ca = !git add -A && git commit -avm
+    # Commit changes, add any necessary files, and add message in editor
+    c = commit -a
+    # Switch to a branch, creating it if necessary
+    go = checkout -B
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    rv = remote -v
+    # Credit an author on the latest commit
+    credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+    # Undo a `git push`
+    undopush = push -f origin HEAD^:master
+    # push master branch to remote origin (common on github)
+    gp = push origin master
+    # Get a list of files from the last commit(s)
+    last-commit = diff --name-only HEAD~1 HEAD
+    # Push to both origin and heroku repos
+    gpa = !git push && git push heroku master
+    # Grab the commits in the las X days and pretty print the files
+    time = "!f() { git log --pretty=format: --name-only --since=\"$1 days ago\"; }; f"
+    # Reset the current edited files back to the last commit
+    rh = reset --hard
+    # Pull everything
+    pa = pull --all
+    # Push everything to a shared repo
+    psa = push shared --all
+
+# URL shorthands
+[url "git@github.com:"]
+    insteadOf = "gh:"
+    pushInsteadOf = "github:"
+    pushInsteadOf = "git://github.com/"
+[url "git://github.com/"]
+    insteadOf = "github:"
+[url "git@gist.github.com:"]
+    insteadOf = "gst:"
+    pushInsteadOf = "gist:"
+    pushInsteadOf = "git://gist.github.com/"
+[url "git://gist.github.com/"]
+    insteadOf = "gist:"
+[push]
+    default = simple

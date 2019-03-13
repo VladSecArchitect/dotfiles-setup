@@ -1,0 +1,7 @@
+command script import ~/lldb/lldbinit.py
+
+comma script import ~/lldb/subl.py
+comma script add -f subl.subl subl
+
+comma script import ~/lldb/mate.py
+comma script add -f mate.mate mate
