@@ -1,0 +1,92 @@
+#brew cask search
+#brew cask uninstall app
+# cask_args appdir: '/Applications'
+
+# Casks
+cask 'osxfuse'
+cask 'adobe-reader'
+
+# Core Functionality
+# echo Install Core Apps
+cask 'little-snitch'
+cask 'wireshark'
+cask 'charles'
+
+cask 'transmit'
+cask 'transmission'
+cask 'vlc'
+cask 'the-unarchiver'
+
+# Clouds
+# echo Install Clouds Apps
+cask 'google-drive'
+cask 'google-backup-and-sync'
+cask 'dropbox'
+
+### Android
+# https://gist.github.com/patrickhammond/4ddbe49a67e5eb1b9c03
+# https://developer.android.com/studio/run/emulator-commandline.html
+
+#Java, Android
+cask 'java'
+cask 'android-sdk'
+cask 'android-ndk'
+cask 'android-studio'
+cask 'intellij-idea'
+
+cask 'intel-haxm'
+cask 'jd-gui'
+
+cask 'asset-catalog-tinkerer'
+cask 'dash'
+cask 'sourcetree'
+
+# Virtualization
+cask 'virtualbox'
+cask 'vagrant'
+cask 'vagrant-manager'
+cask 'genymotion'
+
+# vagrant box add precise64 http://files.vagrantup.com/precise64.box
+
+
+cask 'firefox'
+cask 'google-chrome'
+
+cask 'mysql-utilities'
+cask 'mysqlworkbench'
+
+cask 'oclint'
+cask 'skype'
+cask 'adium'
+
+
+#Editors
+cask 'sublime-text'
+# ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
+cask 'macdown'
+cask 'hex-fiend'
+cask 'synalyze-it-pro'
+cask 'beyond-compare'
+cask 'kaleidoscope'
+
+
+#QuickLook plugins
+# https://github.com/sindresorhus/quick-look-plugins
+cask 'webpquicklook'	# Preview WebP images
+cask 'betterzipql'		# Preview archives
+cask 'qlcolorcode' 		# Preview source code files with syntax highlighting
+cask 'qlimagesize'		# Display image size and resolution
+cask 'qlmarkdown' 		# Preview Markdown files
+cask 'qlprettypatch'	# Preview .patch files
+cask 'qlstephen' 		# Preview plain text files without or with unknown file extension. Example: README, CHANGELOG, index.styl, etc.
+cask 'qlvideo'			# Preview most types of video files, as well as their thumbnails, cover art and metadata
+cask 'quicklook-csv'	# Preview CSV files
+cask 'quicklook-json'	# Preview JSON files
+cask 'quicklookase'		# Preview Adobe ASE Color Swatches generated with Adobe Photoshop, Adobe Illustrator, Adobe Color CC, Spectrum, COLOURlovers, Prisma, among many others.
+cask 'suspicious-package' # Preview the contents of a standard Apple installer package
+cask 'quicklookapk'		# Preview Android APK files
+cask 'cert-quicklook'
+
+# You may need to restart the QuickLook manager. To do so, you'll need to open a Terminal and execute:
+# qlmanage -r

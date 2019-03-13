@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+
+#   Set Default Editor (change 'Nano' to the editor of your choice)
+#   ------------------------------------------------------------
+# Make vim the default editor.
+	#export EDITOR='vim';
+
+# Make Sublime the default editor.
+	export EDITOR='subl -w'
+
+#   Set default blocksize for ls, df, du
+#   from this: http://hints.macworld.com/comment.php?mode=view&cid=24491
+#   ------------------------------------------------------------
+    export BLOCKSIZE=1k
+
+#   Add color to terminal
+#   (this is all commented out as I use Mac Terminal Profiles)
+#   from http://osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
+#   ------------------------------------------------------------
+    export CLICOLOR=1
+    export LSCOLORS=ExFxCxDxBxegedabagacad
+
+export TERM=xterm-color
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;13'
+
+
+
+
+
+
+# Enable persistent REPL history for `node`.
+	export NODE_REPL_HISTORY=~/.node_history;
+
+# Allow 32³ entries; the default is 1000.
+	export NODE_REPL_HISTORY_SIZE='32768';
+
+# Use sloppy mode by default, matching web browsers.
+	export NODE_REPL_MODE='sloppy';
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+	export PYTHONIOENCODING='UTF-8';
+
+
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+	export HISTSIZE='32768';
+	export HISTFILESIZE="${HISTSIZE}";
+
+# Omit duplicates and commands that begin with a space from history.
+	export HISTCONTROL='ignoreboth';
+	# export HISTCONTROL=erasedups
+
+
+# Prefer US English and use UTF-8.
+	export LANG='en_US.UTF-8';
+	export LC_ALL='en_US.UTF-8';
+
+# Highlight section titles in manual pages.
+	export LESS_TERMCAP_md="${yellow}";
+
+# Don’t clear the screen after quitting a manual page.
+	export MANPAGER='less -X';
+
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+	export GPG_TTY=$(tty);
+
+
+### Theos
+	export THEOS=/opt/theos
+	export THEOS_DEVICE_IP=example.local THEOS_DEVICE_PORT=22
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+### Android
+# https://gist.github.com/patrickhammond/4ddbe49a67e5eb1b9c03
+export ANT_HOME=/usr/local/opt/ant
+export MAVEN_HOME=/usr/local/opt/maven
+export GRADLE_HOME=/usr/local/opt/gradle
+export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
+
+
+# export ANDROID_HOME=/usr/local/Cellar/android-sdk
+export ANDROID_HOME=/usr/local/opt/android-sdk
+# export ANDROID_HOME=/usr/local/share/android-sdk
+# export ANDROID_HOME=~/Library/Android/sdk
+#
+
+#persisting location for Caskfiles
+export HOMEBREW_CASK_OPTS="--appdir=/Volumes/data/Applications"
