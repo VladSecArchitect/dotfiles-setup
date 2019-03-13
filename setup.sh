@@ -55,6 +55,54 @@ git config --global user.email "your_email@domain.com"
 git config --global credential.helper osxkeychain
 
 
+# Development
+echo Install Dev Apps
+brew cask install --appdir="/Applications" github
+
+
+# Nice to have
+echo Install Some additional Apps
+brew cask install --appdir="/Applications" firefox
+brew cask install --appdir="/Applications" skype
+
+
+## Tor and Privoxy
+brew install tor
+
+# defaults write /usr/local/opt/tor/homebrew.mxcl.tor.plist ProgramArguments -array-add '{-f;/usr/local/etc/tor/torrc}'
+# To have launchd start tor at login:
+ln -sfv /usr/local/opt/tor/homebrew.mxcl.tor.plist ~/Library/LaunchAgents
+# Then to load tor now:
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.tor.plist
+
+brew install torsocks
+brew install privoxy
+
+# cp /usr/local/etc/privoxy/config /usr/local/opt/privoxy/sbin/
+# cp /usr/local/Cellar/config /usr/local/opt/privoxy/sbin/
+# // add this following line into config file, it means forward filtered data to Tor.
+# forward-socks4a / 127.0.0.1:9050 .
+
+
+brew install proxychains-ng
+brew install pth
+
+brew install python2
+pip install --upgrade pip setuptools
+pip install virtualenv
+pip install virtualenvwrapper
+
+pip install Flask
+# http://flask.pocoo.org
+# FLASK_APP=hello.py flask run
+# Running on http://localhost:5000/
+
+
+# SciPy (pronounced “Sigh Pie”) is a Python-based ecosystem of open-source software for mathematics, science, and engineering.
+pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+
+
+
 # Install tools
 brew bundle Brewfile
 
