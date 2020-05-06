@@ -15,6 +15,11 @@ tap "homebrew/dupes"
 tap "homebrew/services"
 tap "swiftkit/cuckoo"
 
+tap "homebrew/cask"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+
 cask_args appdir: '/Volumes/data/Applications'
 
 # brew cask list --versions
@@ -261,10 +266,10 @@ brew "ack"          # tool like grep, optimized for programmers
 
 brew "dark-mode"
 brew "git"
-brew "git-lfs"
-brew "p7zip"
+brew "git-lfs"		# Git extension for versioning large files
+brew "p7zip"		# 7-Zip (high compression file archiver) implementation
 brew "rename"
-brew "ssh-copy-id"
+brew "ssh-copy-id"	# Add a public key to a remote machine's authorized_keys file
 
 
 brew "tree"             # Tree is a recursive directory listing command that produces a depth indented listing of files.
@@ -272,7 +277,7 @@ brew "tree"             # Tree is a recursive directory listing command that pro
 brew "pandoc"           # If you need to convert files from one markup format into another,
 						# pandoc is your swiss-army knife.
 						# Pandoc can convert documents in markdown, reStructuredText, textile, HTML, DocBook, LaTeX, MediaWiki markup, TWiki markup, OPML, Emacs Org-Mode, Txt2Tags, Microsoft Word docx, LibreOffice ODT, EPUB, or Haddock markup
-brew "imagemagick"      # use the 'convert' command to edit/convert images and pdfs
+brew "imagemagick"      # Tools and libraries to manipulate images in many formats. use the 'convert' command to edit/convert images and pdfs
 
 ########################
 ## Ruby
@@ -283,26 +288,24 @@ brew "rbenv-gemset"
 
 
 brew "youtube-dl"
-brew "trash"
-brew "tmux"
+brew "trash"			# CLI tool that moves files or folder to the trash
+brew "tmux"				# Terminal multiplexer
 brew "htop"
 brew "watch"            # re display results from a command every x seconds
 
-brew "opencv"
+brew "opencv"			# Open source computer vision library
 
-
-
-brew "adns"
-brew "appledoc"
-brew "arss"
+brew "adns"				# C/C++ resolver library and DNS resolver utilities
+brew "appledoc"			# Objective-C API documentation generator
+brew "arss"				# Analyze a sound file into a spectrogram
 
 brew "autoconf"
 brew "automake"
 brew "bash"
-brew "bash-completion"
+brew "bash-completion"	# Programmable completion for Bash 3.2
 
 brew "binutils"
-brew "bittwist"
+brew "bittwist"			# Libcap-based Ethernet packet generator
 brew "boost"
 brew "calc"
 
@@ -459,6 +462,8 @@ brew "pixman"       # Cairo is a 2D graphics library with support for multiple o
 					# Experimental backends include OpenGL, BeOS, OS/2, and DirectFB.
 					# https://cairographics.org
 
+brew "cairo"		# Vector graphics library with cross-device output support
+
 brew "pkg-config"   # pkg-config is a helper tool used when compiling applications and libraries.
 					# It helps you insert the correct
 					# compiler options on the command line so an application can use gcc -o test test.c `pkg-config --libs --cflags glib-2.0`
@@ -477,7 +482,7 @@ brew "sphinx-doc"   # Sphinx is a tool that makes it easy to create intelligent 
 brew "x264"         # x264 is a free software library and application for encoding video streams into the H.264/MPEG-4 AVC compression format
 						# https://www.videolan.org/developers/x264.html
 
-brew "xvid"         # The free video codec that's strong in compression and quality. Number one choice of millions worldwide.
+brew "xvid"         # High-performance, high-quality MPEG-4 video library. The free video codec that's strong in compression and quality. Number one choice of millions worldwide.
 						# https://www.xvid.com
 
 brew "xz"           # xz is a command line tool with syntax similar to that of gzip
@@ -487,19 +492,24 @@ brew "yara"         # YARA is a tool aimed at (but not limited to) helping malwa
 					# to identify and classify malware samples.
 					# https://github.com/VirusTotal/yara/
 
+brew "webp"			# Image format providing lossless and lossy compression for web images
 
 # cp /usr/local/etc/privoxy/config /usr/local/opt/privoxy/sbin/
 # cp /usr/local/Cellar/config /usr/local/opt/privoxy/sbin/
 # // add this following line into config file, it means forward filtered data to Tor.
 # forward-socks4a / 127.0.0.1:9050 .
 
+brew "tesseract"	# OCR (Optical Character Recognition) engine
 
 brew "pth"          # Pth is a very portable POSIX/ANSI-C based library for Unix platforms which provides non-preemptive priority-based scheduling for multiple threads of execution (aka ``multithreading'') inside event-driven applications. All threads run in the same address space of the server application, but each thread has it's own individual program-counter, run-time stack, signal mask and errno variable.
 					# https://www.gnu.org/software/pth/
 
+brew "unbound"		# Validating, recursive, caching DNS resolver
 
 brew "gdrive"       # Google Drive CLI Client
 					# https://github.com/prasmussen/gdrive
+
+brew "flac"			# Free lossless audio codec
 
 ## Android
 brew "ant"
