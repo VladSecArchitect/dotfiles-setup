@@ -67,6 +67,7 @@ cask 'whatsapp'
 
 #Editors
 cask 'sublime-text'
+cask 'sublime-merge'
 # ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 cask 'macdown'
 cask 'hex-fiend'
