@@ -50,7 +50,8 @@ cask 'genymotion'
 # vagrant box add precise64 http://files.vagrantup.com/precise64.box
 
 
-cask 'firefox'
+# cask 'firefox'
+cask 'firefox-developer-edition'
 cask 'google-chrome'
 
 cask 'mysql-utilities'
@@ -60,6 +61,9 @@ cask 'oclint'
 cask 'skype'
 cask 'adium'
 
+cask 'docker'
+
+cask 'whatsapp'
 
 #Editors
 cask 'sublime-text'
