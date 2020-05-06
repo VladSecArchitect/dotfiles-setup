@@ -1,0 +1,88 @@
+# for i in $(brew list -1); do brew info $i --json | jq '.[0] | .desc' >> test_brew1.txt; done
+
+brew 'aom'              	# Codec library for encoding and decoding AV1 video streams
+brew 'cairo'            	# Vector graphics library with cross-device output support
+brew 'ffmpeg'           	# Play, record, convert, and stream audio and video
+brew 'flac'             	# Free lossless audio codec
+brew 'fontconfig'       	# XML-based font configuration API for X Windows
+brew 'freetype'         	# Software library to render fonts
+brew 'frei0r'           	# Minimalistic plugin API for video effects
+brew 'fribidi'          	# Implementation of the Unicode BiDi algorithm
+brew 'gdbm'             	# GNU database manager
+brew 'gettext'          	# GNU internationalization (i18n) and localization (l10n) library
+brew 'ghostscript'      	# Interpreter for PostScript and PDF
+brew 'giflib'           	# Library and utilities for processing GIFs
+brew 'glib'             	# Core application library for C
+brew 'gmp'              	# GNU multiple precision arithmetic library
+brew 'gnutls'           	# GNU Transport Layer Security (TLS) Library
+brew 'graphite2'        	# Smart font renderer for non-Roman scripts
+brew 'harfbuzz'         	# OpenType text shaping engine
+brew 'htop'             	# Improved top (interactive process viewer)
+brew 'icu4c'            	# C/C++ and Java libraries for Unicode and globalization
+brew 'ilmbase'          	# OpenEXR ILM Base libraries (high dynamic-range image file format)
+brew 'imagemagick'      	# Tools and libraries to manipulate images in many formats
+brew 'jpeg'             	# Image manipulation library
+brew 'jq'               	# Lightweight and flexible command-line JSON processor
+brew 'lame'             	# High quality MPEG Audio Layer III (MP3) encoder
+brew 'leptonica'        	# Image processing and image analysis library
+brew 'libass'           	# Subtitle renderer for the ASS/SSA subtitle format
+brew 'libbluray'        	# Blu-Ray disc playback library for media players like VLC
+brew 'libde265'         	# Open h.265 video codec implementation
+brew 'libevent'         	# Asynchronous event library
+brew 'libffi'           	# Portable Foreign Function Interface library
+brew 'libheif'          	# ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+brew 'libidn2'          	# International domain name library (IDNA2008, Punycode and TR46)
+brew 'libogg'           	# Ogg Bitstream Library
+brew 'libomp'           	# LLVM's OpenMP runtime library
+brew 'libpng'           	# Library for manipulating PNG images
+brew 'libressl'         	# Version of the SSL/TLS protocol forked from OpenSSL
+brew 'libsamplerate'    	# Library for sample rate conversion of audio data
+brew 'libscrypt'        	# Library for scrypt
+brew 'libsndfile'       	# C library for files containing sampled sound
+brew 'libsoxr'          	# High quality, one-dimensional sample-rate conversion library
+brew 'libtasn1'         	# ASN.1 structure parser library
+brew 'libtiff'          	# TIFF library and utilities
+brew 'libtool'          	# Generic library support script
+brew 'libunistring'     	# C string library for manipulating Unicode strings
+brew 'libvidstab'       	# Transcode video stabilization plugin
+brew 'libvorbis'        	# Vorbis General Audio Compression Codec
+brew 'libvpx'           	# VP8/VP9 video codec
+brew 'little-cms2'      	# Color management engine supporting ICC profiles
+brew 'llvm'             	# Next-gen compiler infrastructure
+brew 'lzo'              	# Real-time data compression library
+brew 'ncurses'          	# Text-based UI library
+brew 'nettle'           	# Low-level cryptographic library
+brew 'node'             	# Platform built on V8 to build network applications
+brew 'oniguruma'        	# Regular expressions library
+brew 'opencore-amr'      	# Audio codecs extracted from Android open source project
+brew 'openexr'          	# High dynamic-range image file format
+brew 'openjpeg'         	# Library for JPEG-2000 image manipulation
+brew 'openssl'          	# Cryptography and SSL/TLS Toolkit
+brew 'openssl@1.1'      	# Cryptography and SSL/TLS Toolkit
+brew 'opus'             	# Audio codec
+brew 'p11-kit'          	# Library to load and enumerate PKCS                                   # 11 modules
+brew 'pcre'             	# Perl compatible regular expressions library
+brew 'pixman'           	# Low-level library for pixel manipulation
+brew 'python'           	# Interpreted, interactive, object-oriented programming language
+brew 'python@3.8'       	# Interpreted, interactive, object-oriented programming language
+brew 'readline'         	# Library for command-line editing
+brew 'rtmpdump'         	# Tool for downloading RTMP streaming media
+brew 'rubberband'       	# Audio time stretcher tool and library
+brew 'sdl2'             	# Low-level access to audio, keyboard, mouse, joystick, and graphics
+brew 'shared-mime-info' 	# Database of common MIME types
+brew 'snappy'           	# Compression/decompression library aiming for high speed
+brew 'speex'            	# Audio codec designed for speech
+brew 'sqlite'           	# Command-line interface for SQLite
+brew 'srt'              	# Secure Reliable Transport
+brew 'swig'             	# Generate scripting interfaces to C/C++ code
+brew 'tesseract'        	# OCR (Optical Character Recognition) engine
+brew 'theora'           	# Open video compression format
+brew 'tor'              	# Anonymizing overlay network for TCP
+brew 'unbound'          	# Validating, recursive, caching DNS resolver
+brew 'webp'             	# Image format providing lossless and lossy compression for web images
+brew 'wget'             	# Internet file retriever
+brew 'x264'             	# H.264/AVC encoder
+brew 'x265'             	# H.265/HEVC encoder
+brew 'xvid'             	# High-performance, high-quality MPEG-4 video library
+brew 'xz'               	# General-purpose data compression with high compression ratio
+brew 'youtube-dl'       	# Download YouTube videos from the command-line
