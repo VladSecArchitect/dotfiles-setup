@@ -1,0 +1,64 @@
+# EditorConfig helps maintain consistent coding styles for multiple developers
+# working on the same project across various editors and IDEs.
+
+# For more information about the properties used in
+# this file, please see the EditorConfig documentation:
+# https://editorconfig.org/
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.py]
+indent_size = 4
+max_line_length = 88
+
+[*.js]
+indent_size = 2
+quote_type = single
+
+[*.ts]
+indent_size = 2
+quote_type = single
+
+[*.html]
+indent_size = 2
+
+[*.css]
+indent_size = 2
+
+[*.yaml]
+indent_size = 2
+
+[*.json]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+indent_style = space
+indent_size = 4
+insert_final_newline = false
+
+[*.sql]
+indent_style = space
+indent_size = 2
+
+[*.conf]
+indent_style = space
+indent_size = 4
+
+[*.env]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+
