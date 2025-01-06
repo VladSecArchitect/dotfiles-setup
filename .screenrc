@@ -1,0 +1,26 @@
+# ~/.screenrc
+
+# Disable the startup message to reduce clutter
+startup_message off
+
+# Set a large scrollback buffer for retaining command output
+defscrollback 32000
+
+# Enable UTF-8 mode for compatibility with modern encodings
+defutf8 on
+
+# Display the status line with window and system info
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][ %{y}%l %{g}][ %{c}%Y-%m-%d %{w}%c ]'
+
+# Disable automatic detachment to avoid accidental exits
+autodetach off
+
+# Logging setup
+logfile ~/screenlog.%Y%m%d
+log on
+
+# Key bindings for quick window navigation
+bindkey -k k1 select 0
+bindkey -k k2 select 1
+bindkey -k k3 select 2
