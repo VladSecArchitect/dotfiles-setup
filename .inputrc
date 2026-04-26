@@ -1,105 +1,114 @@
-# Enable history search with Up/Down arrows
-# Включить поиск по истории команд с помощью стрелок вверх/вниз
-# Как использовать:
-# 1. Введите начало команды, которую вы хотите найти.
-# 2. Нажмите стрелку ВВЕРХ (↑), чтобы найти предыдущую команду, начинающуюся с этого текста.
-# 3. Нажмите стрелку ВНИЗ (↓), чтобы двигаться вперёд по результатам.
-"\e[A": history-search-backward  # Искать предыдущую команду, начинающуюся с введённого текста
-"\e[B": history-search-forward   # Искать следующую команду, начинающуюся с введённого текста
+# GNU Readline configuration
+# https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 
-# Use Alt+Delete to delete the word after the cursor
-# Использовать Alt+Delete для удаления слова после курсора
-# Как использовать:
-# 1. Переместите курсор в нужное место.
-# 2. Нажмите Alt+Delete, чтобы удалить слово справа от курсора.
-"\e[3;3~": kill-word  # Удаляет текст до следующего пробела или конца строки
+# Load system-wide defaults first
+$include /etc/inputrc
 
-# Enable case-insensitive autocompletion
-# Включить автодополнение, игнорирующее регистр символов
-# Как использовать:
-# 1. Начните вводить имя файла или команды (например, "git").
-# 2. Нажмите Tab, чтобы автодополнение работало независимо от регистра (например, "Git" или "GIT").
+########################
+## Completion behaviour
+
+# Case-insensitive tab completion (Desktop matches desktop)
 set completion-ignore-case on
 
-# Show all possible matches immediately if ambiguous
-# Сразу показывать все возможные совпадения при неоднозначности
-# Как использовать:
-# 1. Введите текст и нажмите Tab.
-# 2. Если есть несколько совпадений, они сразу будут показаны (без второго нажатия Tab).
+# Treat - and _ as equivalent in completion
+set completion-map-case on
+
+# Show all matches immediately on ambiguous completion (no double-tab needed)
 set show-all-if-ambiguous on
 
-# Automatically append a trailing slash when autocompleting directories
-# Автоматически добавлять слэш при автодополнении директорий
-# Как использовать:
-# 1. Введите имя директории и нажмите Tab.
-# 2. Слэш (/) будет автоматически добавлен, чтобы вы могли продолжить вводить вложенные пути.
-set mark-symlinked-directories on
+# Also show matches when nothing new was typed since last completion
+set show-all-if-unmodified on
 
-# Do not match hidden files unless the input explicitly begins with a dot
-# Не подбирать скрытые файлы, если ввод не начинается с точки
-# Как использовать:
-# 1. Введите имя файла или директории и нажмите Tab.
-# 2. Скрытые файлы (начинающиеся с ".") не будут предлагаться, если не указана точка.
-set match-hidden-files off
-
-# Display all autocompletion options at once
-# Отображать все варианты автодополнения сразу, без постраничной прокрутки
-# Как использовать:
-# 1. Введите текст и нажмите Tab.
-# 2. Все возможные совпадения будут показаны сразу, без необходимости прокручивать экран.
-set page-completions off
-
-# Show extra file information like in `ls -F` during autocompletion
-# Показывать дополнительную информацию о файлах, как при команде `ls -F`
-# Как использовать:
-# 1. Нажмите Tab при вводе пути или имени файла.
-# 2. Вы увидите дополнительную информацию, такую как "/", "*" или "@" для директорий, исполняемых файлов или символических ссылок.
-set visible-stats on
-
-# Autocomplete based on text after the cursor as well
-# Автодополнение с учётом текста после курсора
-# Как использовать:
-# 1. Введите текст в середине команды.
-# 2. Нажмите Tab, чтобы автодополнение учитывало текст как до, так и после курсора.
+# Skip the part of the word already typed when inserting a completion
 set skip-completed-text on
 
-# Enable UTF-8 input and output
-# Включить поддержку UTF-8 для ввода и вывода
-# Как использовать:
-# 1. Поддержка многоязычных символов (например, кириллица, китайские символы) в терминале включена.
-# 2. Вы можете вводить команды с такими символами, не получая ошибок.
+# If there are more than 200 possible completions, ask before showing them all
+set completion-query-items 200
+
+# Append / to symlinked directories in completion list
+set mark-symlinked-directories on
+
+########################
+## Visual feedback
+
+# Color file types in completion list using $LS_COLORS
+set colored-stats on
+
+# Append file-type indicator to completions (/ for dirs, * for executables)
+set visible-stats on
+
+# Highlight the common prefix of completions in a different color (Readline 7+)
+set colored-completion-prefix on
+
+# Show completion list within one page without paging
+set page-completions off
+
+########################
+## Editing
+
+# No bell — neither audible nor visible
+set bell-style none
+
+# Allow UTF-8 characters to be inserted directly
 set input-meta on
 set output-meta on
 set convert-meta off
 
-# Set a limit for displaying completion options
-# Установить лимит для отображения вариантов автодополнения
-# Как использовать:
-# 1. Если автодополнений больше 200, терминал спросит подтверждение перед их выводом.
-# 2. Чтобы увидеть все совпадения, нажмите "y".
-set completion-query-items 200
+# Bracketed paste: prevents pasted newlines from auto-executing commands
+# Important for security — paste is shown in buffer first, not run immediately
+set enable-bracketed-paste on
 
-# Allow autocompletion for words in the current input line
-# Включить автодополнение слов в текущей строке ввода
-# Как использовать:
-# 1. При вводе текста нажмите Tab.
-# 2. Автодополнение будет работать для слов, уже введённых в текущей строке.
-set completion-map-case on
+# Keep cursor position when navigating history (not jump to end of line)
+set history-preserve-point on
 
-# Disable audible bell (sound) on errors
-# Отключить звуковой сигнал при ошибках
-# Как использовать:
-# 1. Если вы ошиблись в команде или автодополнении, терминал не издаст звуковой сигнал.
-set bell-style none
+# Revert any edits made to a history entry when accepting a different line
+set revert-all-at-newline on
 
-# Avoid delays with large directories
-# Избегать задержек при работе с большими директориями
-# Как использовать:
-# 1. При автодополнении в директориях с большим количеством файлов (например, /usr/bin) скорость работы будет выше.
-set readahead 256
+# Multi-key sequence timeout in ms (lower = less lag in tmux/SSH)
+set keyseq-timeout 200
 
-# Enable smarter Tab behavior
-# Включить более умное поведение Tab
-# Как использовать:
-# 1. Нажимайте Tab несколько раз, чтобы последовательно проходить по всем вариантам автодополнения.
-TAB: menu-complete
+########################
+## Display
+
+# Show completions horizontally (saves vertical space)
+set print-completions-horizontally on
+
+# Auto-fit completion columns to terminal width
+set completion-display-width 0
+
+########################
+## History search (arrow keys search by current prefix)
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Same for Ctrl+P / Ctrl+N
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+
+# Home / End keys
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+
+# Ctrl+Left / Ctrl+Right — jump by word
+"\e[1;5D": backward-word
+"\e[1;5C": forward-word
+
+# Shift+Tab — cycle through completions one by one
+"\e[Z": menu-complete
+
+# Alt+Backspace — delete previous word
+"\e\C-h": backward-kill-word
+"\e[3;3~": kill-word
+
+# Ctrl+X Ctrl+E — expand aliases/variables on current line
+"\C-x\C-e": shell-expand-line
+
+# Alt+* — expand glob pattern in place (ls /etc/nginx/*.c → ls /etc/nginx/file1.c ...)
+"\e*": glob-expand-word
+
+# Alt+# — comment out current line and move to next history entry (save for later)
+"\e#": insert-comment
+
+# Ctrl+O — execute current line then fetch the next history entry (great for replaying sequences)
+"\C-o": operate-and-get-next

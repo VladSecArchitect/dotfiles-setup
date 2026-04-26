@@ -1,0 +1,63 @@
+# GNU nano 9.0 configuration
+# https://www.nano-editor.org/dist/latest/nanorc.5.html
+
+## --- Navigation ---
+set afterends           # Ctrl+Right/Delete stop at word ends, not beginnings
+set smarthome           # Home goes to first non-whitespace char first, then to column 1
+set positionlog         # Remember cursor position for the 200 most recent files
+
+## --- Editing ---
+set autoindent          # Auto-indent new lines to match the previous line
+set zap                 # Backspace/Delete erase the selected region (like most editors)
+set cutfromcursor       # Ctrl+K cuts from cursor to end of line, not the whole line
+set multibuffer         # Allow opening multiple files in separate buffers (Alt+< / Alt+>)
+set locking             # Create vim-style lock files to prevent simultaneous editing
+
+## --- Display ---
+set linenumbers         # Show line numbers in the left margin
+set indicator           # Show scrollbar/position indicator on the right side
+set stateflags          # Show state flags in the top-right (I=autoindent, M=mark, L=hard-wrap)
+set softwrap            # Display long lines over multiple screen rows instead of scrolling
+set atblanks            # When soft-wrapping, break at whitespace instead of screen edge
+set emptyline           # Leave the line below the title bar blank (more breathing room)
+set quickblank          # Status-bar messages disappear after 1 keystroke instead of 20
+
+## --- Line-by-line scrolling ---
+# Note: smooth/smoothscroll options do not exist in nano 9.0 — line-by-line is the default
+
+## --- Whitespace ---
+set tabsize 4
+set tabstospaces        # Insert spaces instead of tab character
+
+## --- Brackets ---
+set brackets ""')>]}"   # Characters treated as closing brackets for justification
+set matchbrackets "(<[{)>]}"  # Opening/closing bracket pairs for Ctrl+] search
+
+## --- Other ---
+set historylog          # Save search/replace history across sessions (~/.nano_history)
+set mouse               # Enable mouse support (click to position cursor, scroll)
+set regexp              # Use POSIX extended regular expressions by default
+set nonewlines          # Don't add trailing newline if the file doesn't have one
+unset breaklonglines    # Don't hard-wrap long lines while typing (replaces deprecated 'set nowrap')
+
+## --- Syntax: gitcommit ---
+syntax "gitcommit" "COMMIT_EDITMSG$"
+color white "#.*"
+color green "#.(modified|deleted).*"
+color yellow start="# Changes.*" end="# Changed.*"
+color cyan start="# Untracked.*" end="diff"
+color cyan start="# Untracked.*" end="$$"
+color brightred "^deleted file mode .*"
+color brightgreen "^\+.*"
+color brightred "^-.*"
+color brightyellow "^(diff|index|---|\+\+\+).*"
+color brightmagenta "@@.*@@"
+color white "# (Change[ds]|Untracked) .*"
+color white "#.*\(use .*"
+color white "^#"
+
+## --- Syntax highlighting ---
+# macOS Apple Silicon (Homebrew):
+include "/opt/homebrew/share/nano/*.nanorc"
+# macOS Intel: replace with /usr/local/share/nano/*.nanorc
+# Ubuntu/Debian:  replace with /usr/share/nano/*.nanorc
