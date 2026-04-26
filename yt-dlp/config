@@ -1,0 +1,34 @@
+# yt-dlp config
+# https://redd.it/akgrow
+# https://github.com/yt-dlp/yt-dlp
+
+# Metadata
+--add-metadata              # Write metadata to the video file
+--xattrs                    # Write metadata to the video file's xattrs
+
+# Subtitles
+--all-subs                  # Download all the available subtitles of the video
+--embed-subs                # Embed subtitles in the video
+--sub-format "srt/ass/best" # Subtitle format
+
+# Thumbnails
+--embed-thumbnail           # Embed thumbnail in the audio as cover art
+--write-thumbnail           # Write thumbnail image to disk
+
+# Metadata sidecar
+--write-info-json           # Write video metadata to a .info.json file
+
+# Postprocessor
+--prefer-ffmpeg             # Prefer ffmpeg over avconv
+
+# Formats
+--format bestvideo+bestaudio # Download best video + best audio and merge
+--prefer-free-formats       # Prefer free video formats
+--merge-output-format mkv   # Output to given container format
+
+# Output filename template
+--output '%(uploader)s - %(upload_date)s - %(title)s - %(extractor)s.%(ext)s'
+
+# Downloader
+--external-downloader aria2c                           # Use aria2c for parallel chunk downloads
+--external-downloader-args "-c -j 3 -x 3 -s 3 -k 1M"  # 3 connections, 1M chunks

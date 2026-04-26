@@ -1,7 +1,113 @@
+# ~/.lldbinit
+# https://lldb.llvm.org/use/settings.html
+# https://lldb.llvm.org/use/mcp.html
+# https://github.com/DerekSelander/LLDB
+# https://github.com/facebook/chisel
+
+###############################################################################
+# Core scripts
+###############################################################################
+
 command script import ~/lldb/lldbinit.py
 
-comma script import ~/lldb/subl.py
-comma script add -f subl.subl subl
+command script import ~/lldb/subl.py
+command script add -f subl.subl subl
 
-comma script import ~/lldb/mate.py
-comma script add -f mate.mate mate
+command script import ~/lldb/mate.py
+command script add -f mate.mate mate
+
+# Facebook Chisel — pvc, visualize, fv, presponder, ... (brew install chisel)
+# command script import /opt/homebrew/opt/chisel/libexec/fbchisellldb.py
+
+# Derek Selander's LLDB — search, dclass, sclass, sbt, yoink
+# https://github.com/DerekSelander/LLDB
+# command script import ~/lldb/dslldb.py
+
+###############################################################################
+# Settings — disassembly & analysis
+###############################################################################
+
+# Intel syntax for x86/x86_64 (Simulator) disassembly
+settings set target.x86-disassembly-flavor intel
+
+# Enable custom data formatters (Chisel, synthetic children)
+settings set target.enable-synthetic-value true
+
+# Limit child count — prevents info overload during AI-assisted sessions
+settings set target.max-children-count 32
+
+# Show small structs inline instead of expanding
+settings set auto-one-line-summaries true
+
+# Escape non-printable characters — safe output for piping / AI parsing
+settings set escape-non-printables true
+
+###############################################################################
+# Settings — process control
+###############################################################################
+
+# Follow child after fork (multi-process apps, XPC services)
+# settings set target.process.follow-fork-mode child
+
+# Stop on every exec call (useful for dyld injection tracing)
+# settings set target.process.stop-on-exec true
+
+###############################################################################
+# Output formatting — clean for Claude Code + MCP
+# https://lldb.llvm.org/use/formatting.html
+###############################################################################
+
+settings set frame-format "frame #${frame.index}: ${frame.pc} ${module.file.basename}\`${function.name}{:${line.number}}\n"
+settings set thread-stop-format "Thread ${thread.id}{, name = ${thread.name}} — ${thread.stop-reason}\n"
+
+###############################################################################
+# Aliases — general
+###############################################################################
+
+command alias regs   register read --all
+command alias bt_all thread backtrace all
+
+###############################################################################
+# Aliases — ARM64 argument registers (x0–x3 = first four args)
+###############################################################################
+
+command alias arg0 register read $x0
+command alias arg1 register read $x1
+command alias arg2 register read $x2
+command alias arg3 register read $x3
+
+###############################################################################
+# Aliases — memory inspection
+###############################################################################
+
+# Print null-terminated string from address:  pstr $x0
+command alias pstr memory read -f s -c 256
+
+# Hex dump N bytes from address:  hexdump 0x1000abc00 --count 256
+command alias hexdump memory read --format x --size 8
+
+###############################################################################
+# Aliases — iOS / Objective-C
+###############################################################################
+
+# Catch ObjC exceptions before they reach handlers
+command alias catch_exc breakpoint set -n objc_exception_throw
+
+###############################################################################
+# MCP — expose LLDB to Claude Code via Model Context Protocol
+# https://lldb.llvm.org/use/mcp.html
+# https://github.com/stass/lldb-mcp
+# https://github.com/benpm/claude_lldb_mcp
+# https://github.com/ant4g0nist/lisa.py
+#
+# Usage inside a running lldb session:
+#   mcp_start   — start MCP server on localhost:59999
+#   mcp_stop    — stop MCP server
+#
+# Then in ~/.claude/settings.json add:
+#   { "mcpServers": { "lldb": { "command": "python3",
+#       "args": ["/path/to/lldb-mcp/lldb_mcp.py"] } } }
+###############################################################################
+
+command alias mcp_start protocol-server start MCP listen://localhost:59999
+command alias mcp_stop  protocol-server stop MCP

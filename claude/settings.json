@@ -1,0 +1,19 @@
+{
+  "theme": "light",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "autoCompactEnabled": true,
+  "preferredNotifChannel": "iterm2",
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:developer.apple.com)",
+      "WebFetch(domain:man7.org)",
+      "WebFetch(domain:ss64.com)"
+    ]
+  }
+}

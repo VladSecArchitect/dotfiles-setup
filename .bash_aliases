@@ -1,45 +1,7 @@
-alias cd..='cd ..'
-alias ..='cd ..'
-alias mem='history | grep'
-alias .='echo $PWD'
-alias purge='sudo purge'
-alias h='history'
-alias apachet='sudo /usr/sbin/apachectl -t && /usr/sbin/apachectl -t -D DUMP_VHOSTS'
-alias apacher='sudo apachectl restart'
-alias showhidden='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
-alias hidehidden='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
-
-
-alias ls='ls -FAGhp'
-alias grep='grep -n'
-alias grep2='grep'
-
-alias less='less -NM'
-alias his-20='history | tail -20'
-alias netstat_osx="sudo lsof -i -P"
-alias machoview="open -a machoview"
-alias dex2jar='sh /usr/local/bin/dex2jar/d2j-dex2jar.sh'
-
-
-#alias qlf='qlmanage -p "$@" &gt;& /dev/null' # Use Quick Look from Terminal
-#alias qlf1='qlmanage -p -g ${HOME}/Library/QuickLook/QLStephen.qlgenerator "$@" -c ''
-
-
-
-alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
-
-#alias clterm="/usr/bin/osascript -e 'tell application \"System Events\" to tell process \"Terminal\" to keystroke \"k\" using command do$
-
 #   -----------------------------
-#   2.  MAKE TERMINAL BETTER
+#   1.  TERMINAL NAVIGATION
 #   -----------------------------
 
-alias cp='cp -iv'                           # Preferred 'cp' implementation
-alias mv='mv -iv'                           # Preferred 'mv' implementation
-alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
-alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
-alias less='less -FSRXc'                    # Preferred 'less' implementation
-cd() { builtin cd "$@"; ll; }               # Always list directory contents upon 'cd'
 alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
 alias ..='cd ../'                           # Go back 1 directory level
 alias ...='cd ../../'                       # Go back 2 directory levels
@@ -47,306 +9,304 @@ alias .3='cd ../../../'                     # Go back 3 directory levels
 alias .4='cd ../../../../'                  # Go back 4 directory levels
 alias .5='cd ../../../../../'               # Go back 5 directory levels
 alias .6='cd ../../../../../../'            # Go back 6 directory levels
-alias edit='subl'                           # edit:         Opens any file in sublime editor
-alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
-alias ~="cd ~"                              # ~:            Go Home
-alias c='clear'                             # c:            Clear terminal display
-alias which='type -all'                     # which:        Find executables
-alias path='echo -e ${PATH//:/\\n}'         # path:         Echo all executable Paths
+#alias .='echo $PWD'                        # breaks the . (source) builtin — bash_completion and any `. file` call echo PWD instead of sourcing
+alias ....="cd ../../.."                    # ....   Go back 3 levels (dot notation)
+alias .....="cd ../../../.."                # .....  Go back 4 levels (dot notation)
+alias -- -="cd -"                           # -:     Go to previous directory (short form)
+alias dl="cd ~/Downloads"                   # dl:    Go to Downloads
+#alias d="cd ~/Desktop"                     # conflicts with d='docker'
+alias ~="cd ~"                              # ~:     Go Home
+alias home='cd ~'                           # home:  Go to home directory
+alias back='cd -'                           # back:  Go to previous directory
+alias c='clear'                             # c:     Clear terminal display
+#alias cl="clear"                           # conflicts with cl="fc -e -|pbcopy" (copy last output)
+#alias c="tr -d '\n' | pbcopy"              # conflicts with c='clear'
+
+
+#   -----------------------------
+#   2.  MAKE TERMINAL BETTER
+#   -----------------------------
+
+alias ls='ls -FAGhp'
+alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
+alias la="ls -aF"
+alias ld="ls -ld"
+alias lt='ls -At1 && echo "------Oldest--"'
+alias ltr='ls -Art1 && echo "------Newest--"'
+alias l='ls -CF --color=auto'               # l:     Compact file list with indicators
+alias less='less -FSRXc'                    # Preferred 'less' implementation
+alias grep='grep -n'
+alias grep2='grep'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+command -v hd > /dev/null || alias hd="hexdump -C"
+alias edit='subl'                           # edit:  Opens any file in sublime editor
+alias f='open -a Finder ./'                 # f:     Opens current directory in MacOS Finder
+alias which='type -all'                     # which: Find executables
+alias path='echo -e ${PATH//:/\\n}'         # path:  Echo all executable Paths
 alias show_options='shopt'                  # Show_options: display bash options settings
 alias fix_stty='stty sane'                  # fix_stty:     Restore terminal settings when screwed up
-alias cic='set completion-ignore-case On'   # cic:          Make tab-completion case-insensitive
-mcd () { mkdir -p "$1" && cd "$1"; }        # mcd:          Makes new Dir and jumps inside
-trash () { command mv "$@" ~/.Trash ; }     # trash:        Moves a file to the MacOS trash
-ql () { qlmanage -p "$*" >& /dev/null; }    # ql:           Opens any file in MacOS Quicklook Preview
-alias DT='tee ~/Desktop/terminalOut.txt'    # DT:           Pipe content to file on MacOS Desktop
+alias cic='bind "set completion-ignore-case on"'  # cic:   Make tab-completion case-insensitive
+alias DT='tee ~/Desktop/terminalOut.txt'    # DT:    Pipe content to file on MacOS Desktop
+alias h='history'
+alias his-20='history | tail -20'
+alias he="history -a"                       # he:    Export history (share between sessions)
+alias hi="history -n"                       # hi:    Import history (share between sessions)
+alias hgrep="history | grep"                # hgrep: Search history for a keyword
+alias machoview="open -a machoview"
 
 #   lr:  Full Recursive Directory Listing
-#   ------------------------------------------
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
-
-#   mans:   Search manpage given in agument '1' for term given in argument '2' (case insensitive)
-#           displays paginated result with colored search terms and two lines surrounding each hit.             Example: mans mplayer codec
-#   --------------------------------------------------------------------
-    mans () {
-        man $1 | grep -iC2 --color=always $2 | less
-    }
-
-#   showa: to remind yourself of an alias (given some part of it)
-#   ------------------------------------------------------------
-    showa () { /usr/bin/grep --color=always -i -a1 $@ ~/Library/init/bash/aliases.bash | grep -v '^\s*$' | less -FSRXc ; }
 
 
 #   -------------------------------
 #   3.  FILE AND FOLDER MANAGEMENT
 #   -------------------------------
 
-zipf () { zip -r "$1".zip "$1" ; }          # zipf:         To create a ZIP archive of a folder
-alias numFiles='echo $(ls -1 | wc -l)'      # numFiles:     Count of non-hidden files in current dir
-alias make1mb='mkfile 1m ./1MB.dat'         # make1mb:      Creates a file of 1mb size (all zeros)
-alias make5mb='mkfile 5m ./5MB.dat'         # make5mb:      Creates a file of 5mb size (all zeros)
-alias make10mb='mkfile 10m ./10MB.dat'      # make10mb:     Creates a file of 10mb size (all zeros)
-
-#   cdf:  'Cd's to frontmost window of MacOS Finder
-#   ------------------------------------------------------
-    cdf () {
-        currFolderPath=$( /usr/bin/osascript <<EOT
-            tell application "Finder"
-                try
-            set currFolder to (folder of the front window as alias)
-                on error
-            set currFolder to (path to desktop folder as alias)
-                end try
-                POSIX path of currFolder
-            end tell
-EOT
-        )
-        echo "cd to \"$currFolderPath\""
-        cd "$currFolderPath"
-    }
-
-#   extract:  Extract most know archives with one command
-#   ---------------------------------------------------------
-    extract () {
-        if [ -f $1 ] ; then
-          case $1 in
-            *.tar.bz2)   tar xjf $1     ;;
-            *.tar.gz)    tar xzf $1     ;;
-            *.bz2)       bunzip2 $1     ;;
-            *.rar)       unrar e $1     ;;
-            *.gz)        gunzip $1      ;;
-            *.tar)       tar xf $1      ;;
-            *.tbz2)      tar xjf $1     ;;
-            *.tgz)       tar xzf $1     ;;
-            *.zip)       unzip $1       ;;
-            *.Z)         uncompress $1  ;;
-            *.7z)        7z x $1        ;;
-            *)     echo "'$1' cannot be extracted via extract()" ;;
-             esac
-         else
-             echo "'$1' is not a valid file"
-         fi
-    }
+alias cp='cp -iv'                           # Preferred 'cp' implementation
+alias mv='mv -iv'                           # Preferred 'mv' implementation
+alias mkdir='mkdir -pv'                     # Preferred 'mkdir' implementation
+alias numFiles='echo $(ls -1 | wc -l)'      # numFiles: Count of non-hidden files in current dir
+alias make1mb='mkfile 1m ./1MB.dat'         # Creates a file of 1mb size (all zeros)
+alias make5mb='mkfile 5m ./5MB.dat'         # Creates a file of 5mb size (all zeros)
+alias make10mb='mkfile 10m ./10MB.dat'      # Creates a file of 10mb size (all zeros)
+alias ax="chmod a+x"                        # ax:    Make file executable
 
 
 #   ---------------------------
 #   4.  SEARCHING
 #   ---------------------------
 
-alias qfind="find . -name "                 # qfind:    Quickly search for file
-ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
-ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
-ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
-
-#   spotlight: Search for a file using MacOS Spotlight's metadata
-#   -----------------------------------------------------------
-    spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
+alias qfind="find . -name"                  # qfind: Quickly search for file
+alias todos="grep -rn 'TODO\|FIXME\|HACK' ."  # todos: List TODO/FIX lines in current project
 
 
 #   ---------------------------
 #   5.  PROCESS MANAGEMENT
 #   ---------------------------
 
-#   findPid: find out the pid of a specified process
-#   -----------------------------------------------------
-#       Note that the command name can be specified via a regex
-#       E.g. findPid '/d$/' finds pids of all processes with names ending in 'd'
-#       Without the 'sudo' it will only find processes of the current user
-#   -----------------------------------------------------
-    findPid () { lsof -t -c "$@" ; }
-
-#   memHogsTop, memHogsPs:  Find memory hogs
-#   -----------------------------------------------------
-    alias memHogsTop='top -l 1 -o rsize | head -20'
-    alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
-
-#   cpuHogs:  Find CPU hogs
-#   -----------------------------------------------------
-    alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
-
-#   topForever:  Continual 'top' listing (every 10 seconds)
-#   -----------------------------------------------------
-    alias topForever='top -l 9999999 -s 10 -o cpu'
-
-#   ttop:  Recommended 'top' invocation to minimize resources
-#   ------------------------------------------------------------
-#       Taken from this macosxhints article
-#       http://www.macosxhints.com/article.php?story=20060816123853639
-#   ------------------------------------------------------------
-    alias ttop="top -R -F -s 10 -o rsize"
-
-#   my_ps: List processes owned by my user:
-#   ------------------------------------------------------------
-    my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
+alias memHogsTop='top -l 1 -o rsize | head -20'
+alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+alias topForever='top -l 9999999 -s 10 -o cpu'
+alias ttop="top -R -F -s 10 -o rsize"
+alias cpu='top -o cpu'
+alias mem='top -o rsize'
+#alias top="sudo htop"                      # overrides system top; install htop and invoke directly
+#alias meminfo='free -m -l -t'             # Linux only (free not available on macOS)
 
 
 #   ---------------------------
 #   6.  NETWORKING
 #   ---------------------------
-# Stop after sending count ECHO_REQUEST packets #
+
 alias ping='ping -c 5'
-alias ports='netstat -tulanp'
-
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
-alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
-alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
-alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
-alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'   # lsockU:       Display only open UDP sockets
-alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'   # lsockT:       Display only open TCP sockets
-alias ipInfo0='ipconfig getpacket en0'              # ipInfo0:      Get info on connections for en0
-alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
-alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
-alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
-
-#   ii:  display useful host related informaton
-#   -------------------------------------------------------------------
-    ii() {
-        echo -e "\nYou are logged on ${RED}$HOST"
-        echo -e "\nAdditionnal information:$NC " ; uname -a
-        echo -e "\n${RED}Users logged on:$NC " ; w -h
-        echo -e "\n${RED}Current date :$NC " ; date
-        echo -e "\n${RED}Machine stats :$NC " ; uptime
-        echo -e "\n${RED}Current network location :$NC " ; scselect
-        echo -e "\n${RED}Public facing IP Address :$NC " ;myip
-        #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
-        echo
-    }
+alias ports='sudo lsof -i -P | grep LISTEN'             # All listening ports
+alias myip='curl -s ifconfig.me'                        # Public facing IP Address
+alias ip4='curl -s -4 ifconfig.me'                      # Public IPv4
+alias ip6='curl -s -6 ifconfig.me'                      # Public IPv6
+alias myip-full='curl -s ipinfo.io | python3 -m json.tool'  # Full IP info with geo
+alias localip='ipconfig getifaddr en0'                  # Local IP on primary interface
+alias ip="curl --disable ifconfig.me/ip"                # ip:    Public IP (plain)
+alias ipf="curl --disable ipinfo.io"                    # ipf:   Detailed IP info (JSON)
+alias netcheck="ping -c 3 8.8.8.8"                     # netcheck: Quick connectivity test
+alias netCons='lsof -i'                                 # Show all open TCP/IP sockets
+alias flushDNS='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+alias lsock='sudo /usr/sbin/lsof -i -P'                 # Display open sockets
+alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'       # Display only open UDP sockets
+alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'       # Display only open TCP sockets
+alias ipInfo0='ipconfig getpacket en0'                   # Get info on connections for en0
+alias ipInfo1='ipconfig getpacket en1'                   # Get info on connections for en1
+alias openPorts='sudo lsof -i | grep LISTEN'             # All listening connections
+alias showBlocked='sudo pfctl -sr'                       # Show PF firewall rules (ipfw removed in macOS 10.10)
+alias netstat_osx="sudo lsof -i -P"
+#alias portt='netstat -tulanp'              # Linux only (netstat flags differ on macOS)
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 
 #   ---------------------------------------
 #   7.  SYSTEMS OPERATIONS & INFORMATION
 #   ---------------------------------------
 
-alias mountReadWrite='/sbin/mount -uw /'    # mountReadWrite:   For use when booted into single-user
+alias mountReadWrite='/sbin/mount -uw /'
+alias purge='sudo purge'
+alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; qlmanage -r cache 2>/dev/null"
+alias showhidden='defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder'
+alias hidehidden='defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder'
+alias cleanupLS="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+alias screensaverDesktop='/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background'
+alias stfu="osascript -e 'set volume output muted true'"
+alias tmlog="log show --predicate 'subsystem == \"com.apple.TimeMachine\"' --last 30m | tail -20"
+alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
+alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil unmountDisk $i; done)'
+alias df='df -h'
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias reload="exec $SHELL -l"
+alias sudo='sudo '
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+alias spotoff="sudo mdutil -a -i off"
+alias spoton="sudo mdutil -a -i on"
+alias plistbuddy="/usr/libexec/PlistBuddy"
+alias week='date +%V'
+alias now='date +"%T"'
+alias nowdate='date +"%d-%m-%Y"'
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+alias map="xargs -n1"
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+alias wrapoff='tput rmam'
+alias wrapon='tput smam'
 
-#   cleanupDS:  Recursively delete .DS_Store files
-#   -------------------------------------------------------------------
-    alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
-
-#   finderShowHidden:   Show hidden files in Finder
-#   finderHideHidden:   Hide hidden files in Finder
-#   -------------------------------------------------------------------
-    alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
-    alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
-
-#   cleanupLS:  Clean up LaunchServices to remove duplicates in the "Open With" menu
-#   -----------------------------------------------------------------------------------
-    alias cleanupLS="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-
-#    screensaverDesktop: Run a screensaver on the Desktop
-#   -----------------------------------------------------------------------------------
-    alias screensaverDesktop='/System/Library/Frameworks/ScreenSaver.framework/Resources/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine -background'
 
 #   ---------------------------------------
 #   8.  WEB DEVELOPMENT
 #   ---------------------------------------
 
-alias apacheEdit='sudo edit /etc/httpd/httpd.conf'      # apacheEdit:       Edit httpd.conf
-alias apacheRestart='sudo apachectl graceful'           # apacheRestart:    Restart Apache
-alias editHosts='sudo edit /etc/hosts'                  # editHosts:        Edit /etc/hosts file
-alias herr='tail /var/log/httpd/error_log'              # herr:             Tails HTTP error logs
-alias apacheLogs="less +F /var/log/apache2/error_log"   # Apachelogs:   Shows apache error logs
-httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grabs headers from web page
-
-#   httpDebug:  Download a web page and show info on what took time
-#   -------------------------------------------------------------------
-    httpDebug () { /usr/bin/curl $@ -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n" ; }
+alias apacheEdit='sudo edit /etc/httpd/httpd.conf'
+alias apacheRestart='sudo apachectl graceful'
+alias apachet='sudo /usr/sbin/apachectl -t && /usr/sbin/apachectl -t -D DUMP_VHOSTS'
+alias apacher='sudo apachectl restart'
+alias editHosts='sudo edit /etc/hosts'
+alias herr='tail /var/log/apache2/error_log'
+alias apacheLogs="less +F /var/log/apache2/error_log"
 
 
 #   ---------------------------------------
-#   9.  REMINDERS & NOTES
+#   9.  GIT
 #   ---------------------------------------
 
-#   remove_disk: spin down unneeded disk
-#   ---------------------------------------
-#   diskutil eject /dev/disk1s3
+alias gs='git status'
+alias gst='git status'
+alias gd='git diff'
+alias ga='git add'
+alias gc='git commit'
+alias gpl='git pull'
+alias gp='git push'
+alias gps='git push'
+alias gl='git log --oneline --graph --decorate -20'
+#alias gl='git pull'                        # conflicts with gl='git log...' (above)
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gaa='git add .'
+alias gss='git status -s'
+alias gdd='git diff --cached'
+alias gdw='git diff --color-words'
+alias gdt='git difftool'
+alias gca='git commit -v -a'
+alias gup='git fetch && git rebase'
+alias gpo='git push origin'
+alias gcp='git cherry-pick'
+alias gcount='git shortlog -sn'
+alias gdel='git branch -D'
 
-#   to change the password on an encrypted disk image:
-#   ---------------------------------------
-#   hdiutil chpass /path/to/the/diskimage
 
-#   to mount a read-only disk image as read-write:
 #   ---------------------------------------
-#   hdiutil attach example.dmg -shadow /tmp/example.shadow -noverify
+#   10.  DOCKER
+#   ---------------------------------------
 
-#   mounting a removable drive (of type msdos or hfs)
-#   ---------------------------------------
-#   mkdir /Volumes/Foo
-#   ls /dev/disk*   to find out the device to use in the mount command)
-#   mount -t msdos /dev/disk1s1 /Volumes/Foo
-#   mount -t hfs /dev/disk1s1 /Volumes/Foo
+alias d='docker'
+alias dc='docker compose'
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+alias dclean='docker system prune -f'
+alias dlogs='docker logs -f'
+alias dexec='docker exec -it'
 
-#   to create a file of a given size: /usr/sbin/mkfile or /usr/bin/hdiutil
+
 #   ---------------------------------------
-#   e.g.: mkfile 10m 10MB.dat
-#   e.g.: hdiutil create -size 10m 10MB.dmg
-#   the above create files that are almost all zeros - if random bytes are desired
-#   then use: ~/Dev/Perl/randBytes 1048576 > 10MB.dat
+#   TMUX
+#   ---------------------------------------
+
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tat='tmux attach -t'
+alias tns='tmux new-session -s'
+
+
+#   ---------------------------------------
+#   11.  MISC
+#   ---------------------------------------
 
 alias chrome="open -a \"Google Chrome\""
 alias safari="open -a \"Safari\""
-# make executable
-alias ax="chmod a+x"
+alias bp="$EDITOR ~/.bash_profile"          # bp:    Edit .bash_profile
+alias src="source ~/.bash_profile"          # src:   Reload bash config
+alias cl="fc -e -|pbcopy"                   # cl:    Copy output of last command to clipboard
+alias cpwd='pwd|tr -d "\n"|pbcopy'           # cpwd:  Copy the working directory path
+alias pubkey='cat ~/.ssh/id_ed25519.pub | pbcopy && echo "SSH public key copied to clipboard"'
+alias tn='tr -d "\n"'                        # tn:    Trim newlines
+alias rmdbc="find . -name '*conflicted*' -exec rm {} \;"  # Remove Dropbox conflicted files
+alias brewup='brew update && brew upgrade && brew cleanup && brew doctor'
+alias trimcopy="tr -d '\n' | pbcopy"
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
 
-# edit .bash_profile
-alias bp="$EDITOR ~/.bash_profile"
 
-# reload your bash config
-alias src="source ~/.bash_profile"
+#   ---------------------------------------
+#   12.  APPSEC / SECURITY
+#   ---------------------------------------
+
+# Base64 encode / decode
+alias b64e='base64'
+alias b64d='base64 -d'
+
+# ROT13
+alias rot13='tr "A-Za-z" "N-ZA-Mn-za-m"'
+
+# Hash files
+alias sha256file='shasum -a 256'
+alias sha1file='shasum -a 1'
+
+# Security headers audit (response headers only)
+alias headers='curl -sI'
+
+# Active listening ports (cleaner than lsof -i)
+alias listen='sudo lsof -iTCP -sTCP:LISTEN -P -n'
+#alias listen="lsof -P -i -n"              # conflicts with listen (above)
+
+# Established connections grouped by process
+alias connections='sudo lsof -i -P -n | grep ESTABLISHED'
+
+# Sniff unencrypted HTTP on Wi-Fi interface
+alias sniff='sudo tcpdump -i en0 -A -s0 "port 80"'
+
+# DNS — all record types for a domain
+alias digall='dig +nocmd any +multiline +noall +answer'
+
+# whois with less noise
+alias wh='whois'
+
+# ARP table (find hosts on local network)
+alias arpt='arp -a'
+
+# macOS security
+alias sip_status='csrutil status'
+alias gatekeeper='spctl --status'
+alias keychain_list='security dump-keychain | grep "\"acct\""'
+
+# Docker security — find containers with --privileged or host network
+alias docker_priv='docker ps -q | xargs docker inspect --format "{{.Name}} privileged={{.HostConfig.Privileged}} net={{.HostConfig.NetworkMode}}"'
+
+# Password / Token generation
+alias generate_password='openssl rand -base64 16 | tr -dc "a-zA-Z0-9!@#$%^&*()-_+=" | fold -w 16 | head -n 1'
+alias generate_human_password='openssl rand -base64 16 | tr -dc "a-zA-Z0-9" | fold -w 16 | head -n 1'
+alias uuid='python3 -c "import uuid; print(uuid.uuid4())"'
+
+# Android RE
+alias dex2jar='sh /usr/local/bin/dex2jar/d2j-dex2jar.sh'
+
+# Dump cleartext HTTP traffic (host + URL)
+alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+
+# Mirror a website for offline analysis
+alias websiteget="wget --random-wait -r -p -e robots=off -U mozilla"
 
 
-#copy output of last command to clipboard
-alias cl="fc -e -|pbcopy"
+#   ---------------------------------------
+#   13.  MISC / TOOLS
+#   ---------------------------------------
 
-# top
-alias cpu='top -o cpu'
-alias mem='top -o rsize' # memory
-
-# copy the working directory path
-alias cpwd='pwd|tr -d "\n"|pbcopy'
-
-# DNS (with update thanks to @blanco)
-alias flush="sudo killall -HUP mDNSResponder"
-
-# share history between terminal sessions
-alias he="history -a" # export history
-alias hi="history -n" # import history
-
-# Get your current public IP
-alias ip="curl icanhazip.com"
-
-# ls better
-alias la="ls -aF"
-alias ld="ls -ld"
-alias ll="ls -l"
-alias lt='ls -At1 && echo "------Oldest--"'
-alias ltr='ls -Art1 && echo "------Newest--"'
-
-# mount all connected Firewire disks
-alias mountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil mountDisk $i; done)'
-# unmount them all
-alias unmountall='system_profiler SPFireWireDataType | grep "BSD Name: disk.$" | sed "s/^.*: //" | (while read i; do /usr/sbin/diskutil unmountDisk $i; done)'
-
-# recursively delete Dropbox conflicted files
-alias rmdbc="find . -name *\ \(*conflicted* -exec rm {} \;" 
-
-# mute the system volume
-alias stfu="osascript -e 'set volume output muted true'"
-
-# time machine log
-alias tmlog="syslog -F '\$Time \$Message' -k Sender com.apple.backupd-auto -k Time ge -30m | tail -n 1"
-
-# trim newlines
-alias tn='tr -d "\n"'
-
-# list TODO/FIX lines from the current project
-alias todos="ack -n --nogroup '(TODO|FIX(ME)?):'"
-
-# create a Taskpaper todo file in the current folder
 alias tp='touch todo.taskpaper && open -a "Taskpaper" todo.taskpaper'
 
-# interactive fasd
-alias zi="fasd -e cd -i"
-
-
-alias f='open -a Finder ./'
+# zoxide — smarter cd, replaces unmaintained fasd
+command -v zoxide &>/dev/null && eval "$(zoxide init bash)" && alias zi='z'
