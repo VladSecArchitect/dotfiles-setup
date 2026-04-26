@@ -1,6 +1,9 @@
 " Disable compatibility mode to use modern Vim features
 set nocompatible
 
+" Enable filetype-based indentation (replaces deprecated smartindent/cindent)
+filetype plugin indent on
+
 " Enable syntax highlighting
 syntax on
 
@@ -13,6 +16,9 @@ set showmatch
 
 " Enable mouse support
 set mouse=a
+
+" Allow switching buffers without saving
+set hidden
 
 " Use spaces instead of tabs
 set expandtab
@@ -32,12 +38,16 @@ if has("persistent_undo")
     set undofile
 endif
 
+" Auto-create undodir if it doesn't exist
+if !isdirectory($HOME."/.vim/undodir")
+    call mkdir($HOME."/.vim/undodir", "p")
+endif
+
 " Better colorscheme support
-set termguicolors          " Enables 24-bit RGB colors
+set termguicolors          " Enables 24-bit RGB colors (requires iTerm2 or compatible terminal)
 
 " Auto-indent new lines
 set autoindent
-set smartindent
 
 " Faster scrolling
 set lazyredraw
@@ -55,22 +65,16 @@ set encoding=utf-8
 set laststatus=2           " Always show the status line
 set ruler                  " Show cursor position in the status line
 
+" Better command-line completion
+set wildmenu               " Show completion menu above the command line
+set wildmode=list:longest,full  " First tab: list and complete longest; second tab: cycle through menu
+
 " Better split behavior
 set splitbelow             " New horizontal splits appear below the current window
 set splitright             " New vertical splits appear to the right
 
-" Map Ctrl+S to save the current file
-nnoremap <C-s> :w<CR>       " Normal mode: Save file
-inoremap <C-s> <Esc>:w<CR>  " Insert mode: Save file and exit insert mode
-vnoremap <C-s> <Esc>:w<CR>  " Visual mode: Save file and exit visual mode
-
-" Map leader key for convenience
-let mapleader=" "          " Set the leader key to space
-nnoremap <leader>w :w<CR>   " Save file with <leader>w
-nnoremap <leader>q :q<CR>   " Quit with <leader>q
-
-" Clipboard support (requires +clipboard support in Vim)
-set clipboard=unnamedplus  " Use system clipboard for copy-paste
+" Clipboard support — macOS uses * register; unnamedplus is Linux/X11 only
+set clipboard=unnamed      " Sync unnamed register with system clipboard (pbcopy/pbpaste)
 
 " Disable annoying sounds
 set noerrorbells
@@ -79,10 +83,15 @@ set novisualbell
 " Faster timeout for mapped sequences
 set timeoutlen=500         " Reduce key sequence timeout to 500ms
 
+" Map leader key for convenience
+let mapleader=" "          " Set the leader key to space
+nnoremap <leader>w :w<CR>   " Save file with <leader>w
+nnoremap <leader>q :q<CR>   " Quit with <leader>q
+
+" Map Ctrl+S to save the current file
+nnoremap <C-s> :w<CR>       " Normal mode: Save file
+inoremap <C-s> <Esc>:w<CR>  " Insert mode: Save file and exit insert mode
+vnoremap <C-s> <Esc>:w<CR>  " Visual mode: Save file and exit visual mode
+
 " Colorscheme (replace 'desert' with your preferred colorscheme)
 colorscheme desert
-
-" Auto-create undodir if it doesn't exist
-if !isdirectory($HOME."/.vim/undodir")
-    call mkdir($HOME."/.vim/undodir", "p")
-endif
