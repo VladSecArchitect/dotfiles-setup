@@ -1,0 +1,108 @@
+# Python recommended packages for AppSec / iOS RE / OSINT / dev work
+# Versions as of 2025 — update with: pip install -U <package>
+# Install all: pip install -r requirements.txt
+#
+# Dropped vs old requirements.txt:
+#   pycrypto        → replaced by pycryptodome
+#   BeautifulSoup   → replaced by beautifulsoup4
+#   nose            → replaced by pytest
+#   enum34, functools32, subprocess32, ipaddress, importlib → Python 2 backports, built-in in Python 3
+#   vkontakte, python-axolotl → abandoned/niche, removed
+#   requesocks      → use PySocks instead
+#   owasp-skf       → deprecated package, project moved to web app
+
+###############################################################################
+## Security & Cryptography
+###############################################################################
+
+pycryptodome==3.23.0        # Drop-in replacement for abandoned PyCrypto — AES, RSA, SHA, etc.
+cryptography==47.0.0        # High-level crypto recipes + low-level OpenSSL bindings
+pyOpenSSL==26.1.0           # Python wrapper for OpenSSL — cert parsing, TLS connections
+asn1crypto==1.5.1           # Fast ASN.1 parser — X.509 cert analysis, DER/PEM decoding
+PyNaCl==1.6.2               # Python bindings to libsodium — modern crypto (Ed25519, Curve25519)
+bcrypt==5.0.0               # Secure password hashing using bcrypt algorithm
+paramiko==4.0.0             # SSH2 protocol library — client, server, key management
+sshtunnel==0.4.0            # Pure Python SSH tunnel (port forwarding over SSH)
+
+###############################################################################
+## Network & Proxy
+###############################################################################
+
+scapy==2.7.0                # Packet crafting, sniffing and manipulation — network layer RE
+PySocks==1.7.1              # SOCKS4/5 and HTTP proxy support for socket connections
+pycurl==7.45.7              # Python interface to libcurl — multi-protocol transfers
+requests==2.33.1            # HTTP for humans — the standard Python HTTP client
+stem==1.8.2                 # Tor controller library — interact with Tor via its control port
+gevent==26.4.0              # Lightweight coroutine-based networking library
+
+###############################################################################
+## iOS / macOS Reverse Engineering
+###############################################################################
+
+frida==17.9.1               # Dynamic instrumentation toolkit — hook JS into native apps at runtime
+                            # Essential for iOS/Android/macOS RE and AppSec testing
+macholib==1.16.4            # Mach-O binary parser — read/write macOS/iOS binary format
+biplist==1.0.3              # Binary plist (.plist) parser — read iOS app bundle configs, entitlements
+pyobjc-core==12.1           # Objective-C bridge for Python on macOS
+                            # Install pyobjc for all framework bindings (Cocoa, Quartz, etc.)
+xattr==1.3.0                # Read/write macOS extended filesystem attributes
+
+###############################################################################
+## OSINT & Data Collection
+###############################################################################
+
+phonenumbers==9.0.29        # Google's phone number parsing, formatting and validation library
+geoip2==5.2.0               # MaxMind GeoIP2 — IP geolocation (city, country, ASN)
+maxminddb==3.1.1            # Reader for MaxMind DB format (.mmdb files)
+beautifulsoup4==4.14.3      # HTML/XML parser for web scraping — replaces BeautifulSoup 3
+lxml==6.1.0                 # Fast XML/HTML processing with XPath and XSLT support
+
+###############################################################################
+## Web & API
+###############################################################################
+
+Flask==3.1.3                # Lightweight web framework — quick APIs, test servers, C2 prototypes
+Flask-Bcrypt==0.7.1         # Flask extension for bcrypt password hashing
+Werkzeug==3.1.8             # WSGI toolkit used by Flask — request/response handling
+Jinja2==3.1.6               # Template engine — used by Flask, Ansible, and standalone
+oauthlib==3.3.1             # Generic OAuth 1 and OAuth 2 request signing
+requests-oauthlib==2.0.0    # OAuth support for the requests library
+jsonschema==4.23.0          # JSON Schema validation — API contract testing, input validation
+protobuf==7.34.1            # Google Protocol Buffers — serialize/deserialize proto messages
+psycopg2==2.9.12            # PostgreSQL adapter for Python
+pika==1.3.2                 # RabbitMQ client — AMQP 0-9-1 protocol implementation
+
+###############################################################################
+## Data Science
+###############################################################################
+
+numpy==2.4.4                # N-dimensional array computing — foundation for scientific Python
+scipy==1.17.1               # Algorithms for scientific computing (signal, stats, optimize)
+pandas==3.0.2               # Data structures and analysis — DataFrames, time series
+matplotlib==3.10.9          # 2D plotting library — charts, graphs, visualizations
+plotly==6.7.0               # Interactive data visualization — browser-based plots
+sympy==1.14.0               # Symbolic mathematics — algebra, calculus, crypto math
+ipython==9.13.0             # Enhanced interactive Python shell with magic commands
+jupyter==1.1.1              # Web-based notebooks — mix code, output, markdown
+
+###############################################################################
+## Utilities
+###############################################################################
+
+click==8.3.3                # Composable CLI toolkit — build command-line tools
+colorama==0.4.6             # ANSI color codes for terminal output (cross-platform)
+termcolor==3.3.0            # Simple ANSI color formatting for terminal strings
+Pygments==2.20.0            # Syntax highlighting — 500+ languages, used by IPython/Sphinx
+docopt==0.6.2               # CLI argument parser from docstring (stable, no active dev)
+python-dateutil==2.9.0      # Extensions to datetime — parsing, relative deltas, tz
+pytz==2025.2                # World timezone definitions for Python
+
+###############################################################################
+## Dev tools
+###############################################################################
+
+virtualenv==21.2.4          # Isolated Python environments (prefer venv in Python 3.3+)
+certifi==2025.4.26          # Mozilla CA certificate bundle — SSL verification in scripts
+chardet==5.2.0              # Character encoding detection — useful for text/binary analysis
+python-docx==1.1.2          # Create and parse Word (.docx) documents — pentest report writing
+pytest==8.3.5               # Testing framework — replaces deprecated nose

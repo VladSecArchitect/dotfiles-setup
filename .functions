@@ -1,0 +1,482 @@
+#!/usr/bin/env bash
+
+#   ---------------------------------------
+#   TERMINAL / SHELL
+#   ---------------------------------------
+
+# Override cd — list directory contents after navigating
+cd() { builtin cd "$@"; ls -FGlAhp; }
+
+# Clear screen and scrollback buffer
+cls() { clear && printf '\e[3J'; }
+
+# Reload bash configuration
+reload_bashrc() { source ~/.bash_profile; echo "Reloaded .bash_profile"; }
+
+# Create a directory and navigate into it
+mcd() { [[ $# -eq 0 ]] && { echo "Usage: mcd <dir>"; return 1; }; mkdir -p "$1" && cd "$1"; }
+
+# cd to the frontmost Finder window directory
+cdf() {
+    local currFolderPath
+    currFolderPath=$( /usr/bin/osascript <<EOT
+        tell application "Finder"
+            try
+        set currFolder to (folder of the front window as alias)
+            on error
+        set currFolder to (path to desktop folder as alias)
+            end try
+            POSIX path of currFolder
+        end tell
+EOT
+    )
+    echo "cd to \"$currFolderPath\""
+    cd "$currFolderPath"
+}
+
+
+#   ---------------------------------------
+#   FILE & FOLDER MANAGEMENT
+#   ---------------------------------------
+
+# Move files to macOS Trash instead of deleting permanently
+trash() { command mv "$@" ~/.Trash; }
+
+# Preview file(s) with macOS QuickLook
+ql() { qlmanage -p "$*" >& /dev/null; }
+
+# Create a zip archive of a folder
+zipf() { [[ $# -eq 0 ]] && { echo "Usage: zipf <dir>"; return 1; }; zip -r "$1".zip "$1"; }
+
+# Extract various archive formats
+extract() {
+    if [ -f "$1" ]; then
+      case "$1" in
+        *.tar.bz2)   tar xjf "$1"          ;;
+        *.tar.gz)    tar xzf "$1"          ;;
+        *.tar.xz)    tar xJf "$1"          ;;
+        *.tar.zst)   tar --zstd -xf "$1"   ;;
+        *.tar)       tar xf "$1"           ;;
+        *.tbz2)      tar xjf "$1"          ;;
+        *.tgz)       tar xzf "$1"          ;;
+        *.bz2)       bunzip2 "$1"          ;;
+        *.gz)        gunzip "$1"           ;;
+        *.xz)        unxz "$1"             ;;
+        *.zst)       unzstd "$1"           ;;
+        *.rar)       7z x "$1"             ;;
+        *.zip)       unzip "$1"            ;;
+        *.Z)         uncompress "$1"       ;;
+        *.7z)        7z x "$1"             ;;
+        *)           echo "'$1' cannot be extracted via extract()" ;;
+      esac
+    else
+      echo "'$1' is not a valid file"
+    fi
+}
+
+# Determine size of a file or total size of a directory
+fs() {
+    if du -b /dev/null > /dev/null 2>&1; then
+        local arg=-sbh
+    else
+        local arg=-sh
+    fi
+    if [[ -n "$@" ]]; then
+        du $arg -- "$@"
+    else
+        du $arg .[^.]* ./*
+    fi
+}
+
+# Compress and encrypt a folder/file (password from clipboard or prompt)
+# Usage: tar_protect <source> <output.tar.enc>
+tar_protect() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: tar_protect <folder_or_file> <output_archive.tar.enc>"
+        return 1
+    fi
+    if command -v pbpaste &>/dev/null; then
+        local password; password=$(pbpaste)
+    else
+        read -sp "Enter password: " password; echo
+    fi
+    tar -cf - "$1" | openssl enc -aes-256-cbc -e -out "$2" -pass pass:"$password"
+    unset password
+}
+
+# Create a password-protected zip archive
+# Usage: zip_protect <file> <output.zip>
+zip_protect() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: zip_protect <file> <output_archive.zip>"
+        return 1
+    fi
+    if command -v pbpaste &>/dev/null; then
+        local password; password=$(pbpaste)
+    else
+        read -sp "Enter password: " password; echo
+    fi
+    zip -P "$password" "$2" "$1"
+    unset password
+}
+
+# Encrypt a file with AES-256-CBC
+# Usage: encrypt_file <input_file> <output_encrypted_file>
+encrypt_file() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: encrypt_file <input_file> <output_encrypted_file>"
+        return 1
+    fi
+    if command -v pbpaste &>/dev/null; then
+        local password; password=$(pbpaste)
+    else
+        read -sp "Enter password: " password; echo
+    fi
+    openssl enc -aes-256-cbc -e -in "$1" -out "$2" -pass pass:"$password"
+    unset password
+}
+
+# Decrypt a file encrypted with AES-256-CBC
+# Usage: decrypt_file <encrypted_file> <output_file>
+decrypt_file() {
+    if [[ $# -lt 2 ]]; then
+        echo "Usage: decrypt_file <encrypted_file> <output_file>"
+        return 1
+    fi
+    if command -v pbpaste &>/dev/null; then
+        local password; password=$(pbpaste)
+    else
+        read -sp "Enter password: " password; echo
+    fi
+    openssl enc -aes-256-cbc -d -in "$1" -out "$2" -pass pass:"$password"
+    unset password
+}
+
+
+#   ---------------------------------------
+#   SEARCHING
+#   ---------------------------------------
+
+# Find file by exact name in current directory tree
+ff() { /usr/bin/find . -name "$@"; }
+
+# Find files whose name starts with a given string
+ffs() { /usr/bin/find . -name "$@"'*'; }
+
+# Find files whose name ends with a given string
+ffe() { /usr/bin/find . -name '*'"$@"; }
+
+# Search for a file using macOS Spotlight metadata
+spotlight() { mdfind "kMDItemDisplayName == '$@'"; }
+
+# Search manpage for a term (highlighted, paginated)
+# Example: mans mplayer codec
+mans() { [[ $# -lt 2 ]] && { echo "Usage: mans <manpage> <term>"; return 1; }; man "$1" | grep -iC2 --color=always "$2" | less; }
+
+# Find aliases matching a pattern
+showa() { grep --color=always -i -a1 "$@" ~/.bash_aliases | grep -v '^\s*$' | less -FSRXc; }
+
+
+#   ---------------------------------------
+#   PROCESS MANAGEMENT
+#   ---------------------------------------
+
+# List processes owned by current user
+my_ps() { ps "$@" -u "$USER" -o pid,%cpu,%mem,start,time,bsdtime,command; }
+
+# Find PID(s) of a process by name
+findPid() { lsof -t -c "$@"; }
+
+
+#   ---------------------------------------
+#   NETWORKING
+#   ---------------------------------------
+
+# Kill process on a given port
+# Usage: killport <port>
+killport() { [[ $# -eq 0 ]] && { echo "Usage: killport <port>"; return 1; }; kill -9 "$(lsof -t -i:"$1")"; }
+
+# Display useful host related information
+ii() {
+    echo -e "\nYou are logged on ${RED}$HOST"
+    echo -e "\nAdditionnal information:$NC " ; uname -a
+    echo -e "\n${RED}Users logged on:$NC " ; w -h
+    echo -e "\n${RED}Current date :$NC " ; date
+    echo -e "\n${RED}Machine stats :$NC " ; uptime
+    echo -e "\n${RED}Current network location :$NC " ; scselect
+    echo -e "\n${RED}Public facing IP Address :$NC " ; myip
+    echo
+}
+
+
+#   ---------------------------------------
+#   WEB DEVELOPMENT
+#   ---------------------------------------
+
+# Show all HTTP response headers
+httpHeaders() { curl -I -L "$@"; }
+
+# Show DNS, connect, transfer timing for a URL
+httpDebug() {
+    curl "$@" -o /dev/null -w "dns: %{time_namelookup} connect: %{time_connect} pretransfer: %{time_pretransfer} starttransfer: %{time_starttransfer} total: %{time_total}\n"
+}
+
+# Start an HTTP server from a directory, optionally specifying the port
+server() {
+    local port="${1:-8000}"
+    sleep 1 && open "http://localhost:${port}/" &
+    python3 -m http.server "$port"
+}
+
+# Start a PHP server from a directory (requires PHP 5.4.0+)
+phpserver() {
+    local port="${1:-4000}"
+    local ip
+    ip=$(ipconfig getifaddr en1)
+    sleep 1 && open "http://${ip}:${port}/" &
+    php -S "${ip}:${port}"
+}
+
+# Use Git's colored diff when available
+hash git &>/dev/null
+if [ $? -eq 0 ]; then
+    diff() { git diff --no-index --color-words "$@"; }
+fi
+
+# Create a data URL from a file
+dataurl() {
+    [[ $# -eq 0 ]] && { echo "Usage: dataurl <file>"; return 1; }
+    local mimeType
+    mimeType=$(file -b --mime-type "$1")
+    if [[ $mimeType == text/* ]]; then
+        mimeType="${mimeType};charset=utf-8"
+    fi
+    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+# Compare original and gzipped file size
+gz() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: gz <file>"
+        return 1
+    fi
+    local origsize gzipsize ratio
+    origsize=$(wc -c < "$1")
+    gzipsize=$(gzip -c "$1" | wc -c)
+    ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l)
+    printf "orig: %d bytes\n" "$origsize"
+    printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
+}
+
+# `s` with no arguments opens current directory in Sublime Text
+s() {
+    if [ $# -eq 0 ]; then
+        subl .
+    else
+        subl "$@"
+    fi
+}
+
+# `v` with no arguments opens current directory in Vim
+v() {
+    if [ $# -eq 0 ]; then
+        vim .
+    else
+        vim "$@"
+    fi
+}
+
+# `o` with no arguments opens the current directory
+o() {
+    if [ $# -eq 0 ]; then
+        open .
+    else
+        open "$@"
+    fi
+}
+
+# tree with hidden files and color, ignoring .git, listing directories first
+tre() { tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — ENCODING
+#   ---------------------------------------
+
+# URL encode / decode
+urlencode() { [[ $# -eq 0 ]] && { echo "Usage: urlencode <string>"; return 1; }; python3 -c "import sys,urllib.parse; print(urllib.parse.quote(sys.argv[1]))" "$1"; }
+urldecode() { [[ $# -eq 0 ]] && { echo "Usage: urldecode <string>"; return 1; }; python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$1"; }
+
+# Hex encode / decode
+hex_encode() { [[ $# -eq 0 ]] && { echo "Usage: hex_encode <string>"; return 1; }; printf '%s' "$1" | xxd -p; }
+hex_decode() { [[ $# -eq 0 ]] && { echo "Usage: hex_decode <hex>"; return 1; }; printf '%s' "$1" | xxd -r -p; }
+
+# UTF-8-encode a string of Unicode symbols
+escape() {
+    printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
+    if [ -t 1 ]; then echo ""; fi
+}
+
+# Decode \x{ABCD}-style Unicode escape sequences
+unidecode() {
+    perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
+    if [ -t 1 ]; then echo ""; fi
+}
+
+# Get a character's Unicode code point
+codepoint() {
+    perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
+    if [ -t 1 ]; then echo ""; fi
+}
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — HASHING
+#   ---------------------------------------
+
+md5str()    { printf '%s' "$1" | md5; }
+sha1str()   { printf '%s' "$1" | shasum -a 1   | cut -d' ' -f1; }
+sha256str() { printf '%s' "$1" | shasum -a 256 | cut -d' ' -f1; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — HTTP / RECON
+#   ---------------------------------------
+
+# HTTP status code only
+httpcode() { [[ $# -eq 0 ]] && { echo "Usage: httpcode <url>"; return 1; }; curl -o /dev/null -s -w "%{http_code}\n" "$@"; }
+
+# Show only security-relevant response headers
+secheaders() {
+    [[ $# -eq 0 ]] && { echo "Usage: secheaders <url>"; return 1; }
+    curl -sI "$1" | grep -iE \
+        '^(strict-transport|content-security|x-frame|x-content-type|x-xss|referrer-policy|permissions-policy|access-control|set-cookie|server|x-powered-by|x-aspnet)'
+}
+
+# Test all HTTP methods against a URL
+test_methods() {
+    [[ $# -eq 0 ]] && { echo "Usage: test_methods <url>"; return 1; }
+    for method in GET POST PUT PATCH DELETE OPTIONS HEAD TRACE; do
+        printf "%-8s %s\n" "$method:" "$(curl -o /dev/null -s -w '%{http_code}' -X "$method" "$1")"
+    done
+}
+
+# Extract all URLs from a file or stdin
+extract_urls() { grep -oE 'https?://[^[:space:]<>"{}|\\^`\[\]]+' "${1:-/dev/stdin}" | sort -u; }
+
+# Run dig and display the most useful info
+digga() { [[ $# -eq 0 ]] && { echo "Usage: digga <domain>"; return 1; }; dig +nocmd "$1" any +multiline +noall +answer; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — TLS / CERTIFICATES
+#   ---------------------------------------
+
+# TLS cert info: subject, issuer, dates, SANs
+sslcheck() {
+    [[ $# -eq 0 ]] && { echo "Usage: sslcheck <domain>"; return 1; }
+    echo | openssl s_client -servername "$1" -connect "${1}:443" 2>/dev/null \
+        | openssl x509 -noout -subject -issuer -dates -ext subjectAltName
+}
+
+# Show all CNs and SANs listed in the SSL certificate for a domain
+getcertnames() {
+    if [ -z "${1}" ]; then
+        echo "ERROR: No domain specified."
+        return 1
+    fi
+    local domain="${1}"
+    echo "Testing ${domain}…"
+    local tmp
+    tmp=$(echo -e "GET / HTTP/1.0\nEOT" \
+        | openssl s_client -connect "${domain}:443" -servername "${domain}" 2>&1)
+    if [[ "${tmp}" = *"-----BEGIN CERTIFICATE-----"* ]]; then
+        local certText
+        certText=$(echo "${tmp}" \
+            | openssl x509 -text -certopt "no_aux, no_header, no_issuer, no_pubkey, \
+            no_serial, no_sigdump, no_signame, no_validity, no_version")
+        echo "Common Name:"
+        echo "${certText}" | grep "Subject:" | sed -e "s/^.*CN=//" | sed -e "s/\/emailAddress=.*//"
+        echo "Subject Alternative Name(s):"
+        echo "${certText}" | grep -A 1 "Subject Alternative Name:" \
+            | sed -e "2s/DNS://g" -e "s/ //g" | tr "," "\n" | tail -n +2
+        return 0
+    else
+        echo "ERROR: Certificate not found."
+        return 1
+    fi
+}
+
+# Get PEM cert from live HTTPS host
+get_cert() {
+    [[ $# -eq 0 ]] && { echo "Usage: get_cert <domain>"; return 1; }
+    echo | openssl s_client -servername "$1" -connect "${1}:443" 2>/dev/null \
+        | openssl x509
+}
+
+# Show full cert chain from live host
+cert_chain() { [[ $# -eq 0 ]] && { echo "Usage: cert_chain <domain>"; return 1; }; openssl s_client -connect "${1}:443" -showcerts 2>/dev/null; }
+
+# Show cert details from PEM file
+cert_info() { [[ $# -eq 0 ]] && { echo "Usage: cert_info <cert.pem>"; return 1; }; openssl x509 -text -noout -in "$1"; }
+
+# Convert cert formats
+pem2der() { [[ $# -eq 0 ]] && { echo "Usage: pem2der <file.pem>"; return 1; }; openssl x509 -outform der -in "$1" -out "${1%.pem}.der"; }
+der2pem() { [[ $# -eq 0 ]] && { echo "Usage: der2pem <file.der>"; return 1; }; openssl x509 -inform der -in "$1" -out "${1%.der}.pem"; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — JWT
+#   ---------------------------------------
+
+# Decode JWT header and payload (no signature validation)
+jwt() {
+    [[ $# -eq 0 ]] && { echo "Usage: jwt <token>"; return 1; }
+    local part
+    echo "$1" | cut -d. -f1,2 | tr '.' '\n' | while IFS= read -r part; do
+        printf '%s' "$part" | base64 -d 2>/dev/null | python3 -m json.tool
+        echo
+    done
+}
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — PASSWORD / TOKEN
+#   ---------------------------------------
+
+# Random password (default 20 chars)
+randpass()  { LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&*()-_=+' < /dev/urandom | head -c "${1:-20}"; echo; }
+
+# Random hex token (default 32 chars = 16 bytes)
+randtoken() { LC_ALL=C tr -dc 'a-f0-9' < /dev/urandom | head -c "${1:-32}"; echo; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — FILESYSTEM
+#   ---------------------------------------
+
+find_suid() { find "${1:-/}" -type f -perm -4000 -ls 2>/dev/null; }
+find_sgid() { find "${1:-/}" -type f -perm -2000 -ls 2>/dev/null; }
+find_ww()   { find "${1:-.}" -type f -perm -002  -ls 2>/dev/null; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — MACOS / KEYCHAIN
+#   ---------------------------------------
+
+keychain_get() { [[ $# -eq 0 ]] && { echo "Usage: keychain_get <service>"; return 1; }; security find-generic-password -wa "$1"; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — DOCKER
+#   ---------------------------------------
+
+docker_caps() { [[ $# -eq 0 ]] && { echo "Usage: docker_caps <container>"; return 1; }; docker inspect "$1" | python3 -m json.tool | grep -A5 '"CapAdd"'; }
+
+
+#   ---------------------------------------
+#   APPSEC / SECURITY — GIT
+#   ---------------------------------------
+
+git_secrets() { git log --all -p | grep -iE '(password|passwd|secret|api.?key|token|private.?key|AWS_|DATABASE_URL)'; }
+git_find()    { [[ $# -eq 0 ]] && { echo "Usage: git_find <string>"; return 1; }; git log --all -p -S "$1"; }

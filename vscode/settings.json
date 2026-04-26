@@ -1,0 +1,13 @@
+{
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "Monokai",
+    "editor.fontSize": 13,
+    "editor.fontFamily": "'Consolas', 'monospace', monospace",
+    "editor.renderWhitespace": "boundary",
+    "editor.minimap.enabled": false,
+    "files.trimTrailingWhitespace": true,
+    "telemetry.telemetryLevel": "off",
+    "workbench.statusBar.feedback.visible": false,
+    "extensions.ignoreRecommendations": false,
+    "window.zoomLevel": 0
+}
