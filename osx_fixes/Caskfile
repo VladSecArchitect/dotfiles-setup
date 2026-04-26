@@ -1,0 +1,114 @@
+# Caskfile — macOS GUI applications
+# Install all: brew bundle --file=Caskfile
+# Install one: brew install --cask <name>
+
+########################
+## Browsers
+cask "google-chrome"                # Google Chrome browser
+cask "firefox@developer-edition"    # Firefox with extra developer tools
+
+########################
+## Editors & IDEs
+cask "visual-studio-code"           # Microsoft's source code editor
+cask "sublime-text"                 # Lightweight code editor
+cask "nova"                         # macOS-native code editor by Panic
+cask "webstorm"                     # JetBrains IDE for JavaScript/TypeScript
+cask "intellij-idea"                # JetBrains IDE for Java/Kotlin
+cask "pycharm-ce"                   # JetBrains PyCharm Community Edition — Python IDE
+cask "macdown"                      # Open-source Markdown editor for macOS
+
+########################
+## Git & Diff tools
+cask "github"                       # GitHub Desktop — GUI client for GitHub
+cask "sublime-merge"                # Git client by Sublime HQ
+cask "sourcetree"                   # Free Git GUI client by Atlassian
+cask "beyond-compare"               # File and folder diff tool
+cask "kaleidoscope"                 # File and folder diff tool with merge (macOS-native)
+
+########################
+## Databases
+cask "tableplus"                    # Modern GUI for relational databases
+cask "dbeaver-community"            # Universal database GUI client (free edition)
+cask "mysqlworkbench"               # Official MySQL GUI (replaces mysql-utilities)
+
+########################
+## Containers & Virtualization
+cask "docker"                       # Docker CLI and daemon
+cask "docker-desktop"               # Docker Desktop — GUI for managing containers
+cask "virtualbox"                   # x86 virtualization software by Oracle
+cask "vagrant"                      # CLI tool for managing portable development environments
+cask "macfuse"                      # File system integration framework (replaces osxfuse)
+cask "genymotion"                   # Android emulator for testing and reverse engineering
+
+########################
+## Network & Security
+cask "wireshark"                    # Network protocol analyzer
+cask "charles"                      # HTTP/HTTPS proxy for traffic inspection and debugging
+cask "mitmproxy"                    # Interactive HTTPS proxy for traffic inspection
+cask "little-snitch"                # Outbound firewall and network monitor
+cask "tunnelblick"                  # Free OpenVPN client for macOS
+cask "vnc-viewer"                   # Remote desktop viewer (RealVNC)
+
+########################
+## File Transfer & Storage
+cask "transmit"                     # FTP/SFTP/S3 file transfer app for macOS
+cask "dropbox"                      # Cloud storage and file sync
+cask "drawio"                       # Diagramming tool (flowcharts, network diagrams)
+
+########################
+## Communication
+cask "slack"                        # Team messaging platform
+cask "telegram"                     # Messaging app with focus on privacy
+cask "whatsapp"                     # WhatsApp desktop client
+cask "discord"                      # Voice, video and text chat platform
+cask "mattermost"                   # Open-source Slack alternative
+cask "microsoft-teams"              # Microsoft Teams collaboration platform
+cask "skype"                        # Skype video and voice calls
+cask "zoom"                         # Video conferencing platform
+
+########################
+## Media
+cask "vlc"                          # Free open-source media player
+cask "audacity"                     # Free open-source audio editor and recorder
+cask "spotify"                      # Music streaming service
+cask "obs"                          # Open Broadcaster Software — screen recording and live streaming
+cask "steam"                        # Valve's digital game distribution platform
+cask "openttd"                      # Open-source remake of Transport Tycoon Deluxe
+cask "beamer"                       # Present from Mac to Apple TV / Chromecast
+
+########################
+## Productivity & Tools
+cask "adobe-acrobat-reader"         # Free PDF viewer by Adobe
+cask "hex-fiend"                    # Lightweight hex editor for macOS
+cask "synalyze-it-pro"              # Hex editor and binary analysis tool with grammar support
+cask "the-unarchiver"               # Multi-format archive unpacker
+cask "suspicious-package"           # QuickLook preview for .pkg installer contents
+cask "rapidapi"                     # API testing and exploration client
+cask "obsidian"                     # Knowledge base and note-taking app (Markdown)
+cask "taskpaper"                    # Plain text to-do lists
+cask "dash"                         # API documentation browser and code snippet manager
+cask "google-drive"                 # Google Drive desktop client (replaces google-backup-and-sync)
+cask "transmission"                 # Free BitTorrent client
+cask "temurin"                      # OpenJDK distribution by Adoptium (replaces java cask)
+cask "android-studio"               # Official Android IDE and SDK manager
+cask "jd-gui"                       # Java decompiler GUI — browse and analyse .class files
+cask "asset-catalog-tinkerer"       # Browse and extract iOS/macOS .xcassets bundles
+
+########################
+## Fonts
+cask "font-noto-emoji"              # Google Noto Emoji font
+
+########################
+## QuickLook plugins
+cask "qlcolorcode"                  # Syntax-highlighted source code preview
+cask "qlmarkdown"                   # Markdown file preview
+cask "qlstephen"                    # Plain text files without extension preview
+cask "quicklook-json"               # JSON file preview
+cask "quicklook-csv"                # CSV file preview
+cask "quicklook-video"              # Video file thumbnails and previews (qlvideo)
+cask "webpquicklook"                # WebP image preview
+cask "qlimagesize"                  # Image dimensions and resolution in QuickLook title bar
+cask "qlprettypatch"                # .patch file preview
+cask "betterzipql"                  # Archive contents preview (zip, tar, etc.)
+cask "quicklookapk"                 # Android APK file preview
+cask "apparency"                    # App bundle inspection (replaces cert-quicklook)

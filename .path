@@ -1,15 +1,37 @@
-export PATH="/usr/local/bin:$PATH"
+# Add `~/bin` and `~/.local/bin` to the `$PATH`
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+# Homebrew — support both Apple Silicon (/opt/homebrew) and Intel (/usr/local)
+# brew shellenv sets PATH, MANPATH, INFOPATH, HOMEBREW_PREFIX, HOMEBREW_CELLAR, HOMEBREW_REPOSITORY
+if [[ -x "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# curl is keg-only — macOS ships its own, Homebrew's version won't be symlinked
+if [[ -f "/opt/homebrew/opt/curl/bin/curl" ]]; then
+    export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+elif [[ -f "/usr/local/opt/curl/bin/curl" ]]; then
+    export PATH="/usr/local/opt/curl/bin:$PATH"
+fi
+
+### LLVM
+if [[ -d "/opt/homebrew/opt/llvm/bin" ]]; then
+    export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+elif [[ -d "/usr/local/opt/llvm/bin" ]]; then
+    export PATH="/usr/local/opt/llvm/bin:$PATH"
+fi
 
 ### Theos
 export PATH=$THEOS/bin:$PATH
 
-### LLVM
-export PATH="/usr/local/opt/llvm/bin:$PATH"
-
-
+### Android
 export PATH=$ANT_HOME/bin:$PATH
 export PATH=$MAVEN_HOME/bin:$PATH
 export PATH=$GRADLE_HOME/bin:$PATH
 export PATH=$ANDROID_HOME/tools:$PATH
 export PATH=$ANDROID_HOME/platform-tools:$PATH
-export PATH=$ANDROID_HOME/build-tools/19.1.0:$PATH
+
+# Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.rvm/bin"

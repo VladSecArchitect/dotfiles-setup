@@ -1,1 +1,85 @@
+# ~/.radare2rc
+# https://r2wiki.readthedocs.io/en/latest/analysis/ios/
+# https://www.sentinelone.com/labs/11-ways-to-tweak-radare2-for-faster-and-easier-macos-malware-analysis/
+
+###############################################################################
+# UI / startup
+###############################################################################
+
+# No fortune tips at startup
 e cfg.fortunes=false
+
+# Use ?E (clippy) instead of ?e for expression help
+e cfg.fortunes.clippy=true
+
+# Solarized color theme
+eco solarized
+
+###############################################################################
+# Screen / display
+###############################################################################
+
+# 256-color mode (change to 3 for truecolor if terminal supports it)
+e scr.color=2
+
+# UTF-8 box-drawing characters
+e scr.utf8=true
+e scr.utf8.curvy=true
+
+# Auto-adjust layout to terminal width
+e scr.responsive=true
+
+# Pipe long output to pager with color support
+e scr.pager=less -R
+
+###############################################################################
+# Disassembly
+###############################################################################
+
+# Don't show raw bytes alongside instructions (cleaner output)
+e asm.bytes=false
+
+# ASCII-art jump lines — grasp control flow without opening visual mode
+e asm.lines=true
+
+# Comments to the right of disassembly (saves vertical space)
+e asm.cmt.right=true
+
+# Show instruction description inline (helpful for syscalls/APIs)
+e asm.describe=true
+
+# Uncomment to show pseudocode (mov eax, str.ok => eax = str.ok)
+# e asm.pseudo=true
+
+###############################################################################
+# Analysis
+###############################################################################
+
+# Analyze local variables and function arguments
+e anal.vars=true
+
+# Analyze switch-statement jump tables
+e anal.jmptbl=true
+
+# Continue function discovery past function end (catches missed functions)
+e anal.hasnext=true
+
+###############################################################################
+# Binary / symbols
+###############################################################################
+
+# Demangle C++/Swift symbols automatically
+e bin.demanglecmd=true
+
+# Cache binary metadata between sessions (speeds up large Mach-O / IPA)
+e bin.cache=true
+
+# Resolve hardcoded strings via emulation — essential for iOS RE
+e emu.str=true
+
+###############################################################################
+# Visual debug mode
+###############################################################################
+
+# Show stack panel in visual debug mode
+e cmd.stack=true

@@ -1,8 +1,64 @@
-# Disable the startup message
+# ~/.screenrc — GNU screen 5.x configuration
+# https://www.gnu.org/software/screen/manual/screen.html
+
+########################
+## Startup
+
+# Suppress the startup splash screen
 startup_message off
 
-# Set a large scrollback buffer
+# Use login shell (inherits all profile settings)
+shell -$SHELL
+
+########################
+## Session behaviour
+
+# Keep session alive when terminal closes — reattach with: screen -r
+autodetach on
+
+# Restore alternate screen on reattach (vim/less don't leave artifacts)
+altscreen on
+
+########################
+## Encoding & Color
+
+# Enable UTF-8 for all windows
+defutf8 on
+
+# 24-bit truecolor support (requires screen 5.x)
+truecolor on
+
+########################
+## Scrollback & Mouse
+
+# Large scrollback buffer
 defscrollback 32000
 
-# Always start `screen` with UTF-8 enabled (`screen -U`)
-defutf8 on
+# Enable mouse support (click to focus window, scroll)
+defmouse on
+
+########################
+## Bell
+
+# No audible or visual bell
+vbell off
+bell_msg ""
+
+########################
+## Logging
+# Logging is OFF by default — enable per-session with Ctrl-A H
+# Log path when enabled manually:
+logfile ~/screenlog.%Y%m%d
+
+########################
+## Status bar
+
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][ %{y}%l %{g}][ %{c}%Y-%m-%d %{w}%c %{g}]%=%{kw}%w'
+
+########################
+## Key bindings — F1/F2/F3 to switch windows 0/1/2
+
+bindkey -k k1 select 0
+bindkey -k k2 select 1
+bindkey -k k3 select 2

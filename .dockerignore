@@ -1,0 +1,206 @@
+# .dockerignore
+# Applies to ALL stages in a multi-stage build (COPY from build context).
+# NOTE: COPY --from=builder (between stages) bypasses this file.
+# Verify no secrets leaked: docker history --no-trunc <image>  |  dive <image>
+
+########################
+## Secrets & Credentials  ← highest priority: review this section first
+
+# Environment files
+.env
+.env.*
+*.env
+
+# SSH keys (all common types)
+.ssh/
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+id_ecdsa
+id_ecdsa.pub
+id_dsa
+id_dsa.pub
+
+# TLS / PKI
+*.key
+*.pem
+*.crt
+*.cert
+*.p12
+*.pfx
+*.der
+
+# Package manager tokens (private registry auth)
+.npmrc
+.yarnrc
+.yarnrc.yml
+.pypirc
+.netrc
+
+# Cloud provider configs
+.aws/
+.gcp/
+.azure/
+.kube/
+kubeconfig
+
+# GPG / Docker auth
+.gnupg/
+.docker/config.json
+
+########################
+## Version control
+
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+
+########################
+## CI/CD (not needed at runtime)
+
+.github/
+.gitlab/
+.gitlab-ci.yml
+.circleci/
+.travis.yml
+Jenkinsfile
+.drone.yml
+
+########################
+## IDE & Editor
+
+.idea/
+.vscode/
+*.sublime-*
+*.sw?
+*.swp
+.editorconfig
+
+########################
+## OS files
+
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+~$*
+
+########################
+## Logs & Temp
+
+*.log
+*.tmp
+*.bak
+*.orig
+*~
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+tmp/
+temp/
+
+########################
+## Dependencies — match at any depth
+
+**/node_modules/
+**/.npm/
+**/.yarn/
+
+########################
+## Build artifacts
+
+build/
+dist/
+out/
+.next/
+.nuxt/
+.output/
+*.o
+*.a
+*.so
+*.exe
+*.out
+
+########################
+## Language: Python
+
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+.env/
+pip-wheel-metadata/
+
+########################
+## Language: Go
+
+bin/
+*.test
+*.prof
+
+########################
+## Language: Java / Kotlin
+
+target/
+.m2/
+.gradle/
+*.class
+*.jar
+*.war
+
+########################
+## Language: Rust
+
+# target/ — already listed above
+
+########################
+## Language: Ruby
+
+.bundle/
+vendor/bundle/
+
+########################
+## Test directories (keep out of production images)
+## Use multi-stage: run tests in builder stage, don't copy to final
+
+test/
+tests/
+spec/
+__tests__/
+coverage/
+
+########################
+## Docker dev overrides (not for production builds)
+
+docker-compose.override.yml
+docker-compose.override.yaml
+Dockerfile.dev
+Dockerfile.test
+*.dockerignore
+
+########################
+## Source maps & HMR (dev-only assets)
+
+*.map
+*.hot-update.js
+*.hot-update.json
+
+########################
+## Docs & Misc
+
+*.md
+LICENSE
+CHANGELOG*
+CONTRIBUTING*

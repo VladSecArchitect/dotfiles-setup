@@ -2,11 +2,16 @@
 
 #   Set Default Editor (change 'Nano' to the editor of your choice)
 #   ------------------------------------------------------------
-# Make vim the default editor.
-	#export EDITOR='vim';
-
-# Make Sublime the default editor.
-	export EDITOR='subl -w'
+# Alternatives:
+#   export EDITOR='vim'
+#   export EDITOR='/Applications/Sublime Text.app/Contents/MacOS/Sublime Text'
+if [[ "$(uname)" == "Darwin" ]] && command -v subl &>/dev/null; then
+	export EDITOR="subl -n -w"
+	export VISUAL="subl -n -w"
+else
+	export EDITOR="nano"
+	export VISUAL="nano"
+fi
 
 #   Set default blocksize for ls, df, du
 #   from this: http://hints.macworld.com/comment.php?mode=view&cid=24491
@@ -20,9 +25,28 @@
     export CLICOLOR=1
     export LSCOLORS=ExFxCxDxBxegedabagacad
 
-export TERM=xterm-color
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='1;13'
+# LS_COLORS for GNU ls (Homebrew coreutils — gls or ls after PATH override)
+# https://github.com/trapd00r/LS_COLORS/blob/master/LS_COLORS
+# https://www.networkworld.com/article/3138909/coloring-your-world-with-ls-colors.html
+export LS_COLORS="rs=0:di=38;5;27:ln=38;5;51:mh=44;38;5;15:pi=40;38;5;11:so=38;5;13:do=38;5;5:bd=48;5;232;38;5;11:cd=48;5;232;38;5;3:or=48;5;232;38;5;9:mi=05;48;5;232;38;5;15:su=48;5;196;38;5;15:sg=48;5;11;38;5;16:ca=48;5;196;38;5;226:tw=48;5;10;38;5;16:ow=48;5;10;38;5;21:st=48;5;21;38;5;15:ex=38;5;34:*.tar=38;5;9:*.tgz=38;5;9:*.arc=38;5;9:*.arj=38;5;9:*.taz=38;5;9:*.lha=38;5;9:*.lz4=38;5;9:*.lzh=38;5;9:*.lzma=38;5;9:*.tlz=38;5;9:*.txz=38;5;9:*.tzo=38;5;9:*.t7z=38;5;9:*.zip=38;5;9:*.z=38;5;9:*.Z=38;5;9:*.dz=38;5;9:*.gz=38;5;9:*.lrz=38;5;9:*.lz=38;5;9:*.lzo=38;5;9:*.xz=38;5;9:*.bz2=38;5;9:*.bz=38;5;9:*.tbz=38;5;9:*.tbz2=38;5;9:*.tz=38;5;9:*.deb=38;5;9:*.rpm=38;5;9:*.jar=38;5;9:*.war=38;5;9:*.ear=38;5;9:*.sar=38;5;9:*.rar=38;5;9:*.alz=38;5;9:*.ace=38;5;9:*.zoo=38;5;9:*.cpio=38;5;9:*.7z=38;5;9:*.rz=38;5;9:*.cab=38;5;9:*.jpg=38;5;13:*.jpeg=38;5;13:*.gif=38;5;13:*.bmp=38;5;13:*.pbm=38;5;13:*.pgm=38;5;13:*.ppm=38;5;13:*.tga=38;5;13:*.xbm=38;5;13:*.xpm=38;5;13:*.tif=38;5;13:*.tiff=38;5;13:*.png=38;5;13:*.svg=38;5;13:*.svgz=38;5;13:*.mng=38;5;13:*.pcx=38;5;13:*.mov=38;5;13:*.mpg=38;5;13:*.mpeg=38;5;13:*.m2v=38;5;13:*.mkv=38;5;13:*.webm=38;5;13:*.ogm=38;5;13:*.mp4=38;5;13:*.m4v=38;5;13:*.mp4v=38;5;13:*.vob=38;5;13:*.qt=38;5;13:*.nuv=38;5;13:*.wmv=38;5;13:*.asf=38;5;13:*.rm=38;5;13:*.rmvb=38;5;13:*.flc=38;5;13:*.avi=38;5;13:*.fli=38;5;13:*.flv=38;5;13:*.gl=38;5;13:*.dl=38;5;13:*.xcf=38;5;13:*.xwd=38;5;13:*.yuv=38;5;13:*.cgm=38;5;13:*.emf=38;5;13:*.axv=38;5;13:*.anx=38;5;13:*.ogv=38;5;13:*.ogx=38;5;13:*.aac=38;5;45:*.au=38;5;45:*.flac=38;5;45:*.mid=38;5;45:*.midi=38;5;45:*.mka=38;5;45:*.mp3=38;5;45:*.mpc=38;5;45:*.ogg=38;5;45:*.ra=38;5;45:*.wav=38;5;45:*.axa=38;5;45:*.oga=38;5;45:*.spx=38;5;45:*.xspf=38;5;45:"
+
+# Colored GCC output
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+	export TERM='gnome-256color';
+elif infocmp xterm-256color >/dev/null 2>&1; then
+	export TERM='xterm-256color';
+fi
+
+# Always enable colored `grep` output
+# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
+#export GREP_OPTIONS='--color=auto'
+#https://www.gnu.org/software/grep/manual/grep.html#index-GREP_005fCOLORS-environment-variable
+#http://www.gnu.org/software/grep/manual/html_node/Environment-Variables.html
+export GREP_COLORS='ms=1;33'
+# orange-on-teal on terminals that support it:
+# export GREP_COLOR='38;5;214;48;5;30'
 
 
 
@@ -41,19 +65,41 @@ export GREP_COLOR='1;13'
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 	export PYTHONIOENCODING='UTF-8';
 
+# Python REPL startup script (tab completion, history, color prompt).
+	export PYTHONSTARTUP=~/.python/pythonrc.py;
+	export PYTHON_HISTORY_FILE=~/.python/.python_history;
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
+
+# Allow 32³ commands to remember, the default is 500.
 	export HISTSIZE='32768';
+# Increase Bash history size. Allow 32³ entries; the default is 500.
 	export HISTFILESIZE="${HISTSIZE}";
 
 # Omit duplicates and commands that begin with a space from history.
-	export HISTCONTROL='ignoreboth';
-	# export HISTCONTROL=erasedups
+# erasedups — removes ALL previous duplicates (not just adjacent ones)
+	export HISTCONTROL='erasedups:ignoreboth';
+
+# Don't record these commands in history.
+# [ ]* — ignore commands starting with a space
+	export HISTIGNORE="&:[ ]*:ls:[bf]g:exit:history:clear";
+
+# Use standard ISO 8601 timestamp
+# %F equivalent to %Y-%m-%d
+# %T equivalent to %H:%M:%S (24-hours format)
+	HISTTIMEFORMAT='%F %T '
+
+# Make new shells get the history lines from all previous shells.
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND";
 
 
+# Setting for the new UTF-8 terminal support in Lion
 # Prefer US English and use UTF-8.
+# Ref https://wiki.archlinux.org/index.php/locale
+	export LC_CTYPE='en_US.UTF-8';
 	export LANG='en_US.UTF-8';
-	export LC_ALL='en_US.UTF-8';
+# WARNING: Using LC_ALL is strongly discouraged as it overrides everything.
+# Please use it only when testing and never set it in a startup file.
+#export LC_ALL='en_US.UTF-8';
 
 # Highlight section titles in manual pages.
 	export LESS_TERMCAP_md="${yellow}";
@@ -80,11 +126,9 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
 
 
-# export ANDROID_HOME=/usr/local/Cellar/android-sdk
-export ANDROID_HOME=/usr/local/opt/android-sdk
-# export ANDROID_HOME=/usr/local/share/android-sdk
 # export ANDROID_HOME=~/Library/Android/sdk
-#
 
 #persisting location for Caskfiles
 export HOMEBREW_CASK_OPTS="--appdir=/Volumes/data/Applications"
+
+export RBENV_ROOT=/usr/local/var/rbenv

@@ -1,6 +1,8 @@
 [core]
     editor = subl -n -w
     excludesfile = ~/.gitignore
+    autocrlf = input
+    pager = diff-so-fancy | less --tabs=4 -RFX
 
 [color]
     ui = auto
@@ -23,6 +25,15 @@
 
 [credential]
     helper = osxkeychain
+
+[status]
+    showUntrackedFiles = all
+
+[help]
+    autocorrect = 1
+
+[pager]
+    difftool = true
 
 [merge]
     # Include summaries of merged commits in newly created merge commit messages
@@ -53,16 +64,18 @@
     rv = remote -v
     # Credit an author on the latest commit
     credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
-    # Undo a `git push`
-    undopush = push -f origin HEAD^:master
-    # push master branch to remote origin (common on github)
-    gp = push origin master
     # Get a list of files from the last commit(s)
     last-commit = diff --name-only HEAD~1 HEAD
-    # Push to both origin and heroku repos
-    gpa = !git push && git push heroku master
-    # Grab the commits in the las X days and pretty print the files
+    # Grab the commits in the last X days and pretty print the files
     time = "!f() { git log --pretty=format: --name-only --since=\"$1 days ago\"; }; f"
+    # Find tags containing commit
+    find-tags = "!f() { git describe --always --contains $1; }; f"
+    # Find commits by source code
+    find-commits = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+    # Find commits by commit message
+    find-messages = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+    # Undo a `git push`
+    undopush = push -f origin HEAD^:master
     # Reset the current edited files back to the last commit
     rh = reset --hard
     # Pull everything
@@ -85,3 +98,9 @@
     insteadOf = "gist:"
 [push]
     default = simple
+
+[pull]
+    rebase = false
+
+[init]
+    defaultBranch = main

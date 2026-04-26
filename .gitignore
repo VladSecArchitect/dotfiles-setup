@@ -32,8 +32,18 @@ Temporary Items
 .apdisk
 
 
+# Icon must end with two \r
+Icon
+
+# Sensitive local overrides — never commit
+.extra
+.ssh/sockets/
+
 # Compiled Python files
 *.pyc
+
+# Compiled C++ files
+*.out
 
 
 #################

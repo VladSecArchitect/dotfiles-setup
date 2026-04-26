@@ -14,13 +14,14 @@ tap "homebrew/core"
 tap "homebrew/dupes"
 tap "homebrew/services"
 tap "swiftkit/cuckoo"
+tap "jenv/jenv"             # Java version manager
 
 tap "homebrew/cask"
 tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/services"
 
-cask_args appdir: '/Volumes/data/Applications'
+# cask_args appdir: '/Applications'
 
 # brew cask list --versions
 
@@ -33,13 +34,11 @@ cask_args appdir: '/Volumes/data/Applications'
 # brew bundle cleanup
 
 # install packages
-brew "afl-fuzz"     # American fuzzy lop is a security-oriented fuzzer that employs a novel
-					# type of compile-time instrumentation and genetic algorithms to automatically discover clean, interesting test cases that trigger new internal states in the targeted binary
-					# http://lcamtuf.coredump.cx/afl/
+brew "aflplusplus"  # AFL++ — maintained fork of American Fuzzy Lop security fuzzer
+					# https://aflplus.plus
 
 
 brew "openssl"
-brew "openssl@1.1"
 
 brew "libressl"     # LibreSSL is a version of the TLS/crypto stack forked from OpenSSL in 2014, with goals of modernizing the codebase, improving security, and applying best practice development processes.
 					# https://www.libressl.org
@@ -50,13 +49,12 @@ brew "libressl"     # LibreSSL is a version of the TLS/crypto stack forked from 
 brew "aircrack-ng"  # Aircrack-ng is a complete suite of tools to assess WiFi network security.
 					# https://www.aircrack-ng.org
 
+brew "arp-sk"       # ARP traffic generation tool for manipulating ARP tables
+					# http://sid.rstack.org/arp-sk/
+
 brew "arp-scan"     # command-line tool that uses the ARP protocol to discover
 					# and fingerprint IP hosts on the local network
 					# https://github.com/royhills/arp-scan
-
-brew "arp-sk"       # ARP traffic generation tool designed to manipulate ARP tables of all kinds of equipment.
-					# This can be easily performed through the sending of the appropriate packet(s).
-					# http://sid.rstack.org/arp-sk/
 
 brew "arping"       # Arping is a util to find out if a specific IP address on the LAN is 'taken' and what MAC address owns it.
 					# Broadcasts a who-has ARP packet on the network and prints answers. VERY useful when you are trying to pick an unused IP for a net that you don't yet have routing to.
@@ -110,10 +108,6 @@ brew "sslscan"      # sslscan tests SSL/TLS enabled services to discover support
 ########################
 # Developer tools
 brew "llvm", args: ['--with-clang']
-brew "appledoc"     # appledoc is command line tool that helps Objective-C developers generate
-					# Apple-like source code documentation from specially formatted source code comments
-					# https://github.com/tomaz/appledoc
-
 brew "libsodium"    # A modern and easy-to-use crypto library.
 					# https://github.com/jedisct1/libsodium/
 					# https://download.libsodium.org/doc/
@@ -190,9 +184,7 @@ brew "coreutils"
 brew "findutils"
 brew "moreutils"
 
-brew "geoip"        # GeoIP Legacy C API
-					# This library is for the GeoIP Legacy format (dat). To read the MaxMind DB format (mmdb) used by GeoIP2, please see libmaxminddb.
-					# https://github.com/maxmind/geoip-api-c
+
 
 brew "gnupg"
 brew "highlight"    # Highlight converts sourcecode to HTML, XHTML, RTF, LaTeX, TeX, SVG,
@@ -216,11 +208,6 @@ brew "mobiledevice"     # Command line utility for interacting with Apple's Priv
 
 
 
-brew "nano"
-
-brew "node"
-brew "ntfs-3g"
-brew "p7zip"
 
 brew "python"
 brew "python2"
@@ -248,11 +235,6 @@ brew "radare2"      # Radare is a portable reversing framework that can disassem
 					# many different architectures
 					# https://radare.org/r/
 
-brew "capstone"     # Capstone is a lightweight multi-platform, multi-architecture disassembly framework.
-					# http://www.capstone-engine.org
-
-
-
 brew "gnu-sed", args: ["--with-default-names"]
 brew "zsh"
 brew "vim", args: ["--override-system-vi"]
@@ -266,8 +248,13 @@ brew "ack"          # tool like grep, optimized for programmers
 
 brew "dark-mode"
 brew "git"
-brew "git-lfs"		# Git extension for versioning large files
-brew "p7zip"		# 7-Zip (high compression file archiver) implementation
+brew "git-lfs"          # Git extension for versioning large files
+brew "git-secrets"      # Prevents committing secrets and credentials to git repos
+                        # https://github.com/awslabs/git-secrets
+brew "git-extras"       # Extra git commands — summary, effort, changelog, etc.
+                        # https://github.com/tj/git-extras
+brew "tig"              # Text-mode git interface — superior for code review and history browsing
+                        # https://github.com/jonas/tig
 brew "rename"
 brew "ssh-copy-id"	# Add a public key to a remote machine's authorized_keys file
 
@@ -290,14 +277,11 @@ brew "rbenv-gemset"
 brew "youtube-dl"
 brew "trash"			# CLI tool that moves files or folder to the trash
 brew "tmux"				# Terminal multiplexer
-brew "htop"
 brew "watch"            # re display results from a command every x seconds
 
 brew "opencv"			# Open source computer vision library
 
 brew "adns"				# C/C++ resolver library and DNS resolver utilities
-brew "appledoc"			# Objective-C API documentation generator
-brew "arss"				# Analyze a sound file into a spectrogram
 
 brew "autoconf"
 brew "automake"
@@ -305,9 +289,7 @@ brew "bash"
 brew "bash-completion"	# Programmable completion for Bash 3.2
 
 brew "binutils"
-brew "bittwist"			# Libcap-based Ethernet packet generator
 brew "boost"
-brew "calc"
 
 # brew "carthage"   # A simple, decentralized dependency manager for Cocoa
 					# https://github.com/Carthage/Carthage
@@ -322,7 +304,6 @@ brew "fabric"       # Fabric is a Python (2.5-2.7) library and command-line tool
 
 brew "cmake"
 # brew "corelocationcli"
-brew "dirmngr"
 brew "dos2unix"
 brew "dpkg"
 brew "emacs"
@@ -339,10 +320,6 @@ brew "gawk"
 brew "gdbm"
 brew "gettext"
 
-# Install GIT
-brew "git"
-
-
 brew "glib"
 brew "gmp"
 brew "gnu-sed"
@@ -351,7 +328,6 @@ brew "gnu-tar"
 
 ########################
 ## Cryptography
-brew "gnupg"
 brew "gnupg2"
 brew "libgcrypt"        # Cryptographic library
 						# https://directory.fsf.org/wiki/Libgcrypt
@@ -369,12 +345,9 @@ brew "libtasn1"     	# Libtasn1 is the ASN.1 library used by GnuTLS, GNU Shishi 
 brew "gnutls"
 brew "gpatch"
 
-brew "gpg-agent"
 brew "icu4c"
-brew "imessage-ruby"
 brew "jpeg"
 brew "lame"
-brew "ldid"
 brew "libassuan"
 brew "libelf"
 brew "libevent"
@@ -515,6 +488,252 @@ brew "flac"			# Free lossless audio codec
 brew "ant"
 brew "maven"
 brew "gradle"
+
+########################
+## Security / Pentest
+brew "ffuf"             # Fast web fuzzer written in Go — directory/parameter brute-forcing
+                        # https://github.com/ffuf/ffuf
+
+brew "gobuster"         # Directory/DNS/vhost busting tool using wordlists
+                        # https://github.com/OJ/gobuster
+
+brew "john"             # John the Ripper — fast password cracker supporting many hash types
+                        # https://www.openwall.com/john/
+
+brew "nikto"            # Web server scanner — checks for dangerous files, outdated software, misconfigs
+                        # https://cirt.net/Nikto2
+
+brew "semgrep"          # Static analysis tool for finding bugs and enforcing code standards
+                        # https://semgrep.dev
+
+brew "trivy"            # All-in-one vulnerability and misconfiguration scanner for containers, IaC, code
+                        # https://trivy.dev
+
+brew "awscli"           # Official Amazon Web Services CLI
+                        # https://aws.amazon.com/cli/
+
+########################
+## Network tools
+brew "mtr"              # Combines ping and traceroute into a single network diagnostic tool
+                        # https://www.bitwizard.nl/mtr/
+
+brew "iperf"            # Tool for measuring maximum TCP/UDP network bandwidth between two hosts
+                        # https://sourceforge.net/projects/iperf/
+
+brew "iperf3"           # Updated rewrite of iperf with improved accuracy and additional features
+                        # https://software.es.net/iperf/
+
+brew "transmission-cli" # Fast, lightweight BitTorrent client — CLI version
+                        # https://transmissionbt.com
+
+brew "telnet"           # Standard telnet client for basic TCP connection testing
+                        # https://opensource.apple.com
+
+brew "srt"              # Secure Reliable Transport protocol library and tools
+                        # https://github.com/Haivision/srt
+
+brew "rtmpdump"         # Tool for downloading RTMP streaming media
+                        # https://rtmpdump.mplayerhq.hu
+
+########################
+## Developer tools
+brew "deno"             # Secure JavaScript/TypeScript runtime built on V8, no node_modules
+                        # https://deno.land
+
+brew "elixir"           # Dynamic, functional language for building scalable distributed apps
+                        # https://elixir-lang.org
+
+brew "erlang"           # Functional language for massive scalability and fault tolerance
+                        # https://www.erlang.org
+
+brew "rebar3"           # Erlang build tool and package manager
+                        # https://rebar3.org
+
+brew "node@20"          # Node.js JavaScript runtime — LTS version 20
+                        # https://nodejs.org
+
+brew "ninja"            # Small, fast build system focused on speed
+                        # https://ninja-build.org
+
+brew "jq"               # Lightweight and flexible command-line JSON processor
+                        # https://stedolan.github.io/jq/
+
+brew "swig"             # Generate scripting interfaces to C/C++ code
+                        # https://swig.org
+
+brew "tokei"            # Count lines of code by language, fast and accurate
+                        # https://github.com/XAMPPRocky/tokei
+
+brew "cloc"             # Count lines of code, comments, and blank lines across many languages
+                        # https://github.com/AlDanial/cloc
+
+brew "act"              # Run GitHub Actions locally for testing and debugging
+                        # https://github.com/nektos/act
+
+brew "fzf"              # Fuzzy finder — interactive search for files, history (Ctrl+R), processes
+                        # https://github.com/junegunn/fzf
+brew "navi"             # Interactive CLI cheatsheet with fuzzy search
+                        # https://github.com/denisidoro/navi
+brew "tldr"             # Simplified man pages with practical examples
+                        # https://tldr.sh
+brew "zoxide"           # Smarter cd — learns your most-used directories; replaces unmaintained fasd
+                        # https://github.com/ajeetdsouza/zoxide
+
+brew "ripgrep"          # Extremely fast grep alternative with .gitignore support; use as `rg`
+                        # https://github.com/BurntSushi/ripgrep
+
+brew "bat"              # cat clone with syntax highlighting, line numbers and git integration
+                        # https://github.com/sharkdp/bat
+
+brew "fd"               # Fast and user-friendly alternative to find
+                        # https://github.com/sharkdp/fd
+
+brew "docker-completion" # Shell completion scripts for Docker CLI
+                        # https://docker.com
+brew "docker-compose-completion" # Shell completion scripts for Docker Compose
+                        # https://docker.com
+
+brew "rsync"            # Fast, versatile file copying and synchronization tool
+                        # https://rsync.samba.org
+
+brew "yamllint"         # Linter for YAML files — checks syntax and formatting
+                        # https://github.com/adrienverge/yamllint
+
+brew "yt-dlp"           # Feature-rich youtube-dl fork for downloading video/audio from 1000+ sites
+                        # https://github.com/yt-dlp/yt-dlp
+
+brew "mkvtoolnix"       # Tools for creating and working with Matroska (MKV) files
+                        # https://mkvtoolnix.download
+
+########################
+## Python ecosystem
+brew "python@3.11"      # Python 3.11 interpreter
+brew "python@3.12"      # Python 3.12 interpreter
+brew "python@3.13"      # Python 3.13 interpreter
+brew "python@3.14"      # Python 3.14 interpreter
+
+brew "python-tk@3.11"   # Tkinter GUI toolkit for Python 3.11
+brew "python-tk@3.13"   # Tkinter GUI toolkit for Python 3.13
+
+brew "python-certifi"   # Mozilla CA certificate bundle for Python
+brew "certifi"          # Root certificates for validating the trustworthiness of SSL certificates
+brew "cffi"             # C Foreign Function Interface for Python
+brew "pycparser"        # C parser written in Python, required by cffi
+brew "cryptography"     # Cryptographic recipes and primitives for Python
+brew "pydantic"         # Data validation using Python type annotations
+brew "rpds-py"          # Python bindings for Rust persistent data structures
+
+########################
+## Libraries (dependencies)
+brew "aom"              # Codec library for AV1 video encoding/decoding
+brew "brotli"           # Generic-purpose lossless compression algorithm by Google
+brew "ca-certificates"  # Mozilla CA certificate bundle
+brew "cjson"            # Ultralightweight JSON parser in ANSI C
+brew "dav1d"            # Fast AV1 decoder by VideoLAN
+brew "dbus"             # Message bus system for inter-process communication
+brew "double-conversion" # Binary-decimal conversions for IEEE doubles (used by V8/Node)
+brew "dwarfutils"       # Tools and libraries for DWARF debug info (used by llvm/compilers)
+brew "fmt"              # Open-source formatting library for C++
+brew "fontconfig"       # XML-based font configuration and customization library
+brew "freetype"         # Software library for rendering fonts
+brew "fribidi"          # Implementation of the Unicode BiDi algorithm (right-to-left text)
+brew "ghostscript"      # Interpreter for PostScript and PDF
+brew "giflib"           # Library for reading and writing GIF images
+brew "gpgme"            # GnuPG Made Easy — C library for GnuPG
+brew "gpgmepp"          # C++ bindings for GPGME
+brew "graphite2"        # Smart font rendering engine for complex scripts
+brew "harfbuzz"         # OpenType text shaping engine
+brew "highway"          # C++ library for SIMD (CPU-portable intrinsics)
+brew "icu4c@76"         # International Components for Unicode — version 76
+brew "icu4c@78"         # International Components for Unicode — version 78
+brew "imath"            # C++ half-precision floating-point library (used by OpenEXR)
+brew "jansson"          # C library for encoding/decoding JSON
+brew "jbig2dec"         # JBIG2 image compression decoder (used by ghostscript)
+brew "jpeg-turbo"       # JPEG image codec with SIMD acceleration
+brew "jpeg-xl"          # JPEG XL image format codec
+brew "leptonica"        # Image processing and analysis library (used by tesseract)
+brew "libarchive"       # Multi-format archive and compression library
+brew "libass"           # Portable ASS/SSA subtitle renderer
+brew "libb2"            # BLAKE2 cryptographic hash function library
+brew "libdatrie"        # Double-array trie library (used for Thai word segmentation)
+brew "libde265"         # H.265/HEVC video codec library
+brew "libebml"          # Extensible Binary Meta Language library (used by MKV)
+brew "libev"            # Full-featured high-performance event loop library in C
+brew "libheif"          # HEIF/HEIC image format decoder/encoder
+brew "libidn"           # International domain name library (IDNA 2003)
+brew "libidn2"          # International domain name library (IDNA 2008, newer standard)
+brew "liblinear"        # Library for large linear classification (used by nmap/semgrep)
+brew "libmatroska"      # Matroska container format library
+brew "libmicrohttpd"    # Small C library for embedding an HTTP server
+brew "libnghttp2"       # HTTP/2 C library
+brew "libogg"           # Ogg bitstream and framing library
+brew "librist"          # Reliable Internet Stream Transport library
+brew "libscrypt"        # Scrypt password hashing library
+brew "libssh2"          # C library for SSH2 protocol
+brew "libthai"          # Thai language support routines
+brew "libtiff"          # TIFF image format library
+brew "libtommath"       # Portable number theoretic multiple-precision integer library
+brew "libunibreak"      # Line and word break library for Unicode
+brew "libuv"            # Multi-platform async I/O library (used by Node.js)
+brew "libvmaf"          # Video quality metric VMAF library by Netflix
+brew "libvorbis"        # Vorbis audio codec library
+brew "libvpx"           # VP8/VP9 video codec library by Google
+brew "little-cms2"      # Color management engine (ICC profiles)
+brew "lz4"              # Extremely fast lossless compression algorithm
+brew "lzo"              # Real-time data compression library
+brew "m4"               # GNU macro processor
+brew "mbedtls@3"        # Lightweight TLS/SSL library for embedded systems
+brew "miniupnpc"        # UPnP IGD client library and tool
+brew "mpdecimal"        # Library for arbitrary-precision decimal floating-point arithmetic
+brew "nspr"             # Netscape Portable Runtime — platform abstraction library (used by NSS)
+brew "nss"              # Mozilla's Network Security Services — crypto/TLS library
+brew "openexr"          # High dynamic range image file format library
+brew "openjpeg"         # JPEG 2000 image codec library
+brew "openjph"          # JPEG 2000 High Throughput (HTJ2K) codec
+brew "openssl@3"        # OpenSSL 3.x — TLS/SSL and cryptography toolkit
+brew "opus"             # Modern audio codec — low latency, high quality
+brew "pango"            # Text layout and rendering library with full Unicode support
+brew "pcre2"            # Perl Compatible Regular Expressions library v2
+brew "pkgconf"          # Package compiler and linker metadata toolkit (pkg-config successor)
+brew "poppler"          # PDF rendering library based on xpdf
+brew "popt"             # Library for parsing command-line options (used by rsync)
+brew "pugixml"          # Light-weight C++ XML processing library
+brew "qrencode"         # QR code generation library and CLI
+brew "qtbase"           # Qt framework base module
+brew "sdl2"             # Simple DirectMedia Layer 2 — cross-platform multimedia library
+brew "svt-av1"          # AV1 encoder library by Intel/Netflix
+brew "tcl-tk"           # Tool Command Language + Tk GUI toolkit
+brew "tcl-tk@8"         # Tcl/Tk version 8 (legacy)
+brew "tree-sitter"      # Incremental parsing system for programming tools
+brew "unixodbc"         # ODBC 3 connectivity for Unix
+brew "wxwidgets@3.2"    # Cross-platform C++ GUI toolkit — version 3.2
+brew "x265"             # H.265/HEVC video encoder
+brew "xorgproto"        # X.Org protocol headers
+brew "xxhash"           # Extremely fast non-cryptographic hash algorithm
+brew "z3"               # Theorem prover / SMT solver by Microsoft Research
+brew "zstd"             # Zstandard — fast real-time compression algorithm
+
+brew "libtool"          # Generic library support script
+brew "frei0r"           # Minimalistic plugin API for video effects (used by ffmpeg)
+brew "libbluray"        # Blu-Ray disc playback library for media players like VLC
+brew "libomp"           # LLVM's OpenMP runtime library
+brew "libsamplerate"    # Library for sample rate conversion of audio data
+brew "libsndfile"       # C library for files containing sampled sound
+brew "libsoxr"          # High quality, one-dimensional sample-rate conversion library
+brew "libvidstab"       # Video stabilization library for transcode
+brew "oniguruma"        # Regular expressions library (used by jq, fish, etc.)
+brew "opencore-amr"     # Audio codecs extracted from Android open source project
+brew "rubberband"       # Audio time stretcher and pitch shifter tool/library
+brew "shared-mime-info" # Database of common MIME types
+brew "snappy"           # Fast compression/decompression library by Google
+brew "speex"            # Audio codec designed for speech
+brew "theora"           # Open video compression format by Xiph.org
+
+########################
+## macOS utilities
+brew "mas"              # Mac App Store CLI — install/update App Store apps from terminal
+                        # https://github.com/mas-cli/mas  (v6.0.1, macOS 13+, actively maintained)
+                        # mas search <name>  |  mas install <appid>  |  mas upgrade
 
 # Remove outdated versions from the cellar
 'cleanup'
