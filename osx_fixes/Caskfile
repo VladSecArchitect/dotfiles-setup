@@ -33,12 +33,12 @@ cask "mysqlworkbench"               # Official MySQL GUI (replaces mysql-utiliti
 
 ########################
 ## Containers & Virtualization
-cask "docker"                       # Docker CLI and daemon
-cask "docker-desktop"               # Docker Desktop — GUI for managing containers
-cask "virtualbox"                   # x86 virtualization software by Oracle
-cask "vagrant"                      # CLI tool for managing portable development environments
-cask "macfuse"                      # File system integration framework (replaces osxfuse)
-cask "genymotion"                   # Android emulator for testing and reverse engineering
+cask "docker-desktop"               # Docker Desktop (the old "docker" cask was renamed to this)
+cask "utm"                          # ARM-native VMs via Apple Virtualization.framework/QEMU (replaces VirtualBox)
+# cask "vagrant"                    # removed: defaults to the VirtualBox provider; x86 guests are a
+#                                   #   dead end on Apple Silicon. Use lima/colima (brew) or Parallels.
+cask "macfuse"                      # FS integration (needs a system extension + reduced-security boot on Apple Silicon)
+cask "genymotion"                   # Android emulator (ARM: runs on QEMU, not VirtualBox; android-studio has a native emulator too)
 
 ########################
 ## Network & Security
@@ -63,7 +63,7 @@ cask "whatsapp"                     # WhatsApp desktop client
 cask "discord"                      # Voice, video and text chat platform
 cask "mattermost"                   # Open-source Slack alternative
 cask "microsoft-teams"              # Microsoft Teams collaboration platform
-cask "skype"                        # Skype video and voice calls
+# cask "skype"                      # removed: Microsoft retired Skype in May 2025
 cask "zoom"                         # Video conferencing platform
 
 ########################
@@ -83,7 +83,7 @@ cask "hex-fiend"                    # Lightweight hex editor for macOS
 cask "synalyze-it-pro"              # Hex editor and binary analysis tool with grammar support
 cask "the-unarchiver"               # Multi-format archive unpacker
 cask "suspicious-package"           # QuickLook preview for .pkg installer contents
-cask "rapidapi"                     # API testing and exploration client
+cask "bruno"                        # Open-source, offline, git-friendly API client (rapidapi/Paw discontinued)
 cask "obsidian"                     # Knowledge base and note-taking app (Markdown)
 cask "taskpaper"                    # Plain text to-do lists
 cask "dash"                         # API documentation browser and code snippet manager
