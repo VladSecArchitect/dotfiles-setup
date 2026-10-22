@@ -65,9 +65,9 @@ export GREP_COLORS='ms=1;33'
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 	export PYTHONIOENCODING='UTF-8';
 
-# Python REPL startup script (tab completion, history, color prompt).
-	export PYTHONSTARTUP=~/.python/pythonrc.py;
-	export PYTHON_HISTORY_FILE=~/.python/.python_history;
+# Python 3.13+ ships a REPL with history + tab-completion built in — no custom
+# PYTHONSTARTUP script needed (the old ~/.python/pythonrc.py was Python 2 cruft).
+	export PYTHON_HISTORY=~/.python_history;
 
 
 # Allow 32³ commands to remember, the default is 500.
