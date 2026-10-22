@@ -49,6 +49,19 @@ kubeconfig
 .gnupg/
 .docker/config.json
 
+# Infrastructure-as-Code state (holds secrets in PLAINTEXT!)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraformrc
+terraform.tfvars
+
+# Signing keys / keystores
+*.p8
+*.jks
+*.keystore
+credentials
+
 ########################
 ## Version control
 

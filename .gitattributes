@@ -1,6 +1,6 @@
-# Automatically normalize line endings for all text-based files
-#* text=auto
-# Disabled because of https://github.com/mathiasbynens/dotfiles/issues/149 :(
+# Normalize line endings: auto-detect text files, store as LF in the repo.
+# (The mathiasbynens #149 caveat is long resolved — safe to enable.)
+* text=auto eol=lf
 
 
 ## Denote all files that are truly binary and should not be modified.

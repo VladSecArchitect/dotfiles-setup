@@ -3,11 +3,12 @@
 # https://github.com/yt-dlp/yt-dlp
 
 # Metadata
---add-metadata              # Write metadata to the video file
+--embed-metadata            # Write metadata to the video file (was --add-metadata)
 --xattrs                    # Write metadata to the video file's xattrs
 
 # Subtitles
---all-subs                  # Download all the available subtitles of the video
+--write-subs                # Download subtitles
+--sub-langs "all"           # ...in all available languages (replaces deprecated --all-subs)
 --embed-subs                # Embed subtitles in the video
 --sub-format "srt/ass/best" # Subtitle format
 
@@ -19,7 +20,7 @@
 --write-info-json           # Write video metadata to a .info.json file
 
 # Postprocessor
---prefer-ffmpeg             # Prefer ffmpeg over avconv
+# (removed --prefer-ffmpeg: deprecated no-op; ffmpeg is the default, avconv is dead)
 
 # Formats
 --format bestvideo+bestaudio # Download best video + best audio and merge

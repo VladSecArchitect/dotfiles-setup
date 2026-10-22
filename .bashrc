@@ -53,5 +53,9 @@
 shopt -s histappend
 shopt -s checkwinsize
 
-# fzf — fuzzy finder bash integration (installed via Homebrew)
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# fzf — fuzzy finder bash integration
+if command -v fzf >/dev/null 2>&1; then
+    eval "$(fzf --bash)"        # fzf 0.48+ native integration
+elif [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash          # legacy fallback
+fi

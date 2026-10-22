@@ -104,8 +104,13 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND";
 # Highlight section titles in manual pages.
 	export LESS_TERMCAP_md="${yellow}";
 
-# Don’t clear the screen after quitting a manual page.
-	export MANPAGER='less -X';
+# Pager for man pages. Dropped `less -X`: it breaks the alt-screen on modern
+# terminals and dumps man text into scrollback. Prefer bat if installed.
+	if command -v bat >/dev/null 2>&1; then
+		export MANPAGER="sh -c 'col -bx | bat -l man -p'";
+	else
+		export MANPAGER='less -R';
+	fi
 
 # Avoid issues with `gpg` as installed via Homebrew.
 # https://stackoverflow.com/a/42265848/96656
