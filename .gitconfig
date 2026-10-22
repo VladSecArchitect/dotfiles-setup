@@ -2,7 +2,15 @@
     editor = subl -n -w
     excludesfile = ~/.gitignore
     autocrlf = input
-    pager = diff-so-fancy | less --tabs=4 -RFX
+    pager = delta          # requires: brew install git-delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
 
 [color]
     ui = auto
@@ -39,9 +47,12 @@
     # Include summaries of merged commits in newly created merge commit messages
     log = true
     tool = opendiff
+    conflictStyle = zdiff3
 
 [diff]
     tool = opendiff
+    algorithm = histogram
+    colorMoved = default
 
 [alias]
     # View the SHA, description, and history graph of the latest 20 commits
@@ -51,7 +62,7 @@
     # Diff
     d = diff --patch-with-stat
     # Pull in remote changes for the current repository and all its submodules
-    p = !"git pull; git submodule foreach git pull origin master"
+    p = !"git pull; git submodule foreach git pull origin main"
     # Commit all changes and add message inline
     ca = !git add -A && git commit -avm
     # Commit changes, add any necessary files, and add message in editor
@@ -75,7 +86,7 @@
     # Find commits by commit message
     find-messages = "!f() { git log --pretty=format:'%C(yellow)%h  %Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
     # Undo a `git push`
-    undopush = push -f origin HEAD^:master
+    undopush = push -f origin HEAD^:main
     # Reset the current edited files back to the last commit
     rh = reset --hard
     # Pull everything
@@ -83,24 +94,29 @@
     # Push everything to a shared repo
     psa = push shared --all
 
-# URL shorthands
+# URL shorthands — always use SSH (git:// is dead on GitHub).
+# insteadOf covers both fetch and push, and rewrites any stray git:// URL to SSH.
 [url "git@github.com:"]
     insteadOf = "gh:"
-    pushInsteadOf = "github:"
-    pushInsteadOf = "git://github.com/"
-[url "git://github.com/"]
     insteadOf = "github:"
+    insteadOf = "git://github.com/"
 [url "git@gist.github.com:"]
     insteadOf = "gst:"
-    pushInsteadOf = "gist:"
-    pushInsteadOf = "git://gist.github.com/"
-[url "git://gist.github.com/"]
     insteadOf = "gist:"
+    insteadOf = "git://gist.github.com/"
 [push]
     default = simple
+    autoSetupRemote = true
 
 [pull]
-    rebase = false
+    ff = only
 
 [init]
     defaultBranch = main
+
+[fetch]
+    prune = true
+    pruneTags = true
+
+[rerere]
+    enabled = true
