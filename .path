@@ -23,15 +23,8 @@ elif [[ -d "/usr/local/opt/llvm/bin" ]]; then
     export PATH="/usr/local/opt/llvm/bin:$PATH"
 fi
 
-### Theos
-export PATH=$THEOS/bin:$PATH
-
-### Android
-export PATH=$ANT_HOME/bin:$PATH
-export PATH=$MAVEN_HOME/bin:$PATH
-export PATH=$GRADLE_HOME/bin:$PATH
-export PATH=$ANDROID_HOME/tools:$PATH
-export PATH=$ANDROID_HOME/platform-tools:$PATH
-
-# Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin"
+# NOTE: Theos / Android / RVM PATH entries now live at the END of ~/.exports.
+# They reference $THEOS / $ANDROID_HOME / $ANT_HOME / etc, which are defined in
+# ~/.exports — and ~/.path is sourced BEFORE ~/.exports, so here those vars are
+# still empty. The old unconditional `export PATH=$ANDROID_HOME/tools:$PATH`
+# therefore expanded to bare "/tools", "/bin" … and injected junk into $PATH.

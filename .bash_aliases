@@ -293,7 +293,7 @@ alias generate_human_password='openssl rand -base64 16 | tr -dc "a-zA-Z0-9" | fo
 alias uuid='python3 -c "import uuid; print(uuid.uuid4())"'
 
 # Android RE
-alias dex2jar='sh /usr/local/bin/dex2jar/d2j-dex2jar.sh'
+alias dex2jar='d2j-dex2jar.sh'   # installed via Homebrew formula dex2jar; wrapper is on $PATH
 
 # Dump cleartext HTTP traffic (host + URL)
 alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
