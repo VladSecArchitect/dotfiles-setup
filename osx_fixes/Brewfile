@@ -1,25 +1,25 @@
 # http://sourabhbajaj.com/mac-setup/
 
 # Make sure we’re using the latest Homebrew
-'update'
+# 'update' removed - not a Brewfile directive (run the brew command manually)
 # Upgrade any already-installed formulae
-'upgrade'
+# 'upgrade' removed - not a Brewfile directive (run the brew command manually)
 
 
-tap "caskroom/cask"
-tap "caskroom/versions"
-tap "homebrew/bundle"
-tap "homebrew/completions"
-tap "homebrew/core"
-tap "homebrew/dupes"
-tap "homebrew/services"
+# removed dead tap caskroom/cask - built-in or archived since Homebrew 4.0
+# removed dead tap caskroom/versions - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/bundle - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/completions - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/core - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/dupes - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/services - built-in or archived since Homebrew 4.0
 tap "swiftkit/cuckoo"
 tap "jenv/jenv"             # Java version manager
 
-tap "homebrew/cask"
-tap "homebrew/cask-versions"
-tap "homebrew/core"
-tap "homebrew/services"
+# removed dead tap homebrew/cask - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/cask-versions - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/core - built-in or archived since Homebrew 4.0
+# removed dead tap homebrew/services - built-in or archived since Homebrew 4.0
 
 # cask_args appdir: '/Applications'
 
@@ -95,7 +95,7 @@ brew "c-ares"       # c-ares is a C library for asynchronous DNS requests (inclu
 brew "socat"        # Multipurpose relay
 					# http://www.dest-unreach.org/socat/
 
-brew "speedtest_cli"    # Command line interface for testing internet bandwidth using speedtest.net
+brew "speedtest-cli"    # Command line interface for testing internet bandwidth using speedtest.net
 						# https://github.com/sivel/speedtest-cli
 
 brew "testssl"      # testssl.sh is a free command line tool which checks a server's service on any port
@@ -107,7 +107,7 @@ brew "sslscan"      # sslscan tests SSL/TLS enabled services to discover support
 
 ########################
 # Developer tools
-brew "llvm", args: ['--with-clang']
+brew "llvm"
 brew "libsodium"    # A modern and easy-to-use crypto library.
 					# https://github.com/jedisct1/libsodium/
 					# https://download.libsodium.org/doc/
@@ -210,7 +210,7 @@ brew "mobiledevice"     # Command line utility for interacting with Apple's Priv
 
 
 brew "python"
-brew "python2"
+# removed brew "python2" - deprecated/removed from Homebrew
 brew "python3"
 
 
@@ -235,9 +235,9 @@ brew "radare2"      # Radare is a portable reversing framework that can disassem
 					# many different architectures
 					# https://radare.org/r/
 
-brew "gnu-sed", args: ["--with-default-names"]
+brew "gnu-sed"
 brew "zsh"
-brew "vim", args: ["--override-system-vi"]
+brew "vim"
 brew "macvim"
 brew "grep"
 brew "openssh"
@@ -274,7 +274,7 @@ brew "rbenv-default-gems"
 brew "rbenv-gemset"
 
 
-brew "youtube-dl"
+# removed brew "youtube-dl" - deprecated/removed from Homebrew
 brew "trash"			# CLI tool that moves files or folder to the trash
 brew "tmux"				# Terminal multiplexer
 brew "watch"            # re display results from a command every x seconds
@@ -286,7 +286,7 @@ brew "adns"				# C/C++ resolver library and DNS resolver utilities
 brew "autoconf"
 brew "automake"
 brew "bash"
-brew "bash-completion"	# Programmable completion for Bash 3.2
+brew "bash-completion@2"	# Programmable completion for Bash 4+ (v1 was for bash 3.2)
 
 brew "binutils"
 brew "boost"
@@ -310,7 +310,7 @@ brew "emacs"
 brew "exiftool"
 brew "exploitdb"
 
-brew "ffmpeg", args: ['--with-fdk-aac', '--with-ffplay', '--with-freetype', '--with-libass', '--with-libvorbis', '--with-libvpx', '--with-opus', '--with-x265'] # convert video files
+brew "ffmpeg" # convert video files
 
 brew "fftw"         # FFTW is a C subroutine library for computing the discrete Fourier transform (DFT)
 					# in one or more dimensions, of arbitrary input size, and of both real and complex data (as well as of even/odd data, i.e. the discrete cosine/sine transforms or DCT/DST).
@@ -328,7 +328,7 @@ brew "gnu-tar"
 
 ########################
 ## Cryptography
-brew "gnupg2"
+# removed brew "gnupg2" - deprecated/removed from Homebrew
 brew "libgcrypt"        # Cryptographic library
 						# https://directory.fsf.org/wiki/Libgcrypt
 
@@ -353,7 +353,7 @@ brew "libelf"
 brew "libevent"
 brew "libewf"
 brew "libffi"
-brew "unrar"
+# removed brew "unrar" - deprecated/removed from Homebrew
 
 brew "hashcat"      # World's fastest password cracker
 					# https://hashcat.net/hashcat/
@@ -421,7 +421,7 @@ brew "p7zip"		# p7zip is a port of 7za.exe for POSIX systems like Unix (Linux, S
 					# OpenBSD, FreeBSD, Cygwin, AIX, ...), MacOS X and also for BeOS and Amiga.
 					# http://p7zip.sourceforge.net
 
-brew "pcre"         # The PCRE library is a set of functions that implement regular expression
+# removed brew "pcre" - deprecated/removed from Homebrew
 					# pattern matching using the same syntax and semantics as Perl 5.
 					# http://www.pcre.org
 
@@ -479,7 +479,7 @@ brew "pth"          # Pth is a very portable POSIX/ANSI-C based library for Unix
 
 brew "unbound"		# Validating, recursive, caching DNS resolver
 
-brew "gdrive"       # Google Drive CLI Client
+# removed brew "gdrive" - deprecated/removed from Homebrew
 					# https://github.com/prasmussen/gdrive
 
 brew "flac"			# Free lossless audio codec
@@ -549,7 +549,7 @@ brew "erlang"           # Functional language for massive scalability and fault 
 brew "rebar3"           # Erlang build tool and package manager
                         # https://rebar3.org
 
-brew "node@20"          # Node.js JavaScript runtime — LTS version 20
+brew "node@22"          # Node.js JavaScript runtime — LTS version 22
                         # https://nodejs.org
 
 brew "ninja"            # Small, fast build system focused on speed
@@ -588,9 +588,9 @@ brew "bat"              # cat clone with syntax highlighting, line numbers and g
 brew "fd"               # Fast and user-friendly alternative to find
                         # https://github.com/sharkdp/fd
 
-brew "docker-completion" # Shell completion scripts for Docker CLI
+# removed brew "docker-completion" - deprecated/removed from Homebrew
                         # https://docker.com
-brew "docker-compose-completion" # Shell completion scripts for Docker Compose
+# removed brew "docker-compose-completion" - deprecated/removed from Homebrew
                         # https://docker.com
 
 brew "rsync"            # Fast, versatile file copying and synchronization tool
@@ -736,4 +736,4 @@ brew "mas"              # Mac App Store CLI — install/update App Store apps fr
                         # mas search <name>  |  mas install <appid>  |  mas upgrade
 
 # Remove outdated versions from the cellar
-'cleanup'
+# 'cleanup' removed - not a Brewfile directive (run the brew command manually)
