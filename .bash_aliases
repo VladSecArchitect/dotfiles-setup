@@ -27,13 +27,28 @@ alias c='clear'                             # c:     Clear terminal display
 #   2.  MAKE TERMINAL BETTER
 #   -----------------------------
 
-alias ls='ls -FAGhp'
-alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
-alias la="ls -aF"
+# ls colours differ by platform: GNU ls (Linux/coreutils) uses --color=auto,
+# BSD ls (macOS) uses -G. Detect once, build the aliases accordingly.
+if ls --color=auto -d . >/dev/null 2>&1; then _LSC='--color=auto'; else _LSC='-G'; fi
+alias ls="ls $_LSC -AFhp"
+alias ll="ls $_LSC -lAFhp"                  # Preferred 'ls' implementation
+alias la="ls $_LSC -AF"
 alias ld="ls -ld"
 alias lt='ls -At1 && echo "------Oldest--"'
 alias ltr='ls -Art1 && echo "------Newest--"'
-alias l='ls -CF --color=auto'               # l:     Compact file list with indicators
+alias l="ls $_LSC -CF"                       # l:     Compact file list with indicators
+unset _LSC
+
+# Non-macOS: shim pbcopy/pbpaste/open so the macOS-style aliases below still work
+if [[ "$OSTYPE" != darwin* ]]; then
+    if command -v xclip >/dev/null 2>&1; then
+        alias pbcopy='xclip -selection clipboard'
+        alias pbpaste='xclip -selection clipboard -o'
+    elif command -v wl-copy >/dev/null 2>&1; then
+        alias pbcopy='wl-copy'; alias pbpaste='wl-paste'
+    fi
+    command -v xdg-open >/dev/null 2>&1 && alias open='xdg-open'
+fi
 alias less='less -FSRXc'                    # Preferred 'less' implementation
 alias grep='grep --color=auto'              # was 'grep -n': forcing -n breaks pipelines/scripts
 alias egrep='egrep --color=auto'
