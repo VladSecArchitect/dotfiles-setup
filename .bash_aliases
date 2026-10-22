@@ -35,8 +35,7 @@ alias lt='ls -At1 && echo "------Oldest--"'
 alias ltr='ls -Art1 && echo "------Newest--"'
 alias l='ls -CF --color=auto'               # l:     Compact file list with indicators
 alias less='less -FSRXc'                    # Preferred 'less' implementation
-alias grep='grep -n'
-alias grep2='grep'
+alias grep='grep --color=auto'              # was 'grep -n': forcing -n breaks pipelines/scripts
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 command -v hd > /dev/null || alias hd="hexdump -C"

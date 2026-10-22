@@ -54,12 +54,12 @@ brew services start tor
 
 PRIVOXY_CONF="$BREW_PREFIX/etc/privoxy/config"
 
-# forward-socks5 is better than forward-socks4a:
-#   socks4a — DNS resolved remotely (no leak) but no IPv6, no UDP
-#   socks5  — DNS resolved remotely + IPv6 support + auth support
-if ! grep -q "^forward-socks5" "$PRIVOXY_CONF"; then
-    echo "forward-socks5 / 127.0.0.1:9050 ." >> "$PRIVOXY_CONF"
-    echo "Added forward-socks5 rule to $PRIVOXY_CONF"
+# forward-socks5t (note the trailing `t`) — forces DNS resolution THROUGH Tor:
+#   socks5  — DNS may be resolved LOCALLY → leaks your lookups outside Tor
+#   socks5t — DNS resolved remotely by Tor (no leak) + IPv6 + auth support
+if ! grep -q "^forward-socks5t" "$PRIVOXY_CONF"; then
+    echo "forward-socks5t / 127.0.0.1:9050 ." >> "$PRIVOXY_CONF"
+    echo "Added forward-socks5t rule to $PRIVOXY_CONF"
 fi
 
 brew services start privoxy
