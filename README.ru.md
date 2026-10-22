@@ -17,12 +17,14 @@
 | `osx_fixes/osx_post_install.sh` | Скрипт настройки macOS — `defaults write`, `pmset`, Homebrew |
 | `osx_fixes/Brewfile` | CLI-пакеты Homebrew |
 | `osx_fixes/Caskfile` | GUI-приложения Homebrew |
+| `linux/apt-setup.sh` | Установка на Debian/Ubuntu (без Homebrew) — CLI/security-инструменты через apt |
+| `firefox/` | Hardened `user.js` (arkenfox) + `user-overrides.js` (см. `firefox/README.md`) |
 | `setup.sh` | Точка входа для начальной установки на новой машине |
 
 ## Установка
 
 ```bash
-git clone <repo> ~/dotfiles
+git clone https://github.com/VladSecArchitect/dotfiles-setup.git ~/dotfiles
 cd ~/dotfiles
 bash setup.sh
 ```
