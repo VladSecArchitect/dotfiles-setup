@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Optional manual launchd job for tor. The recommended path is `brew services start tor`
+  (see tor/setup.sh) — do NOT run both; they would create two competing tor jobs.
+  Defaults below assume Homebrew on Apple Silicon (/opt/homebrew); adjust for Intel
+  (/usr/local) or a custom install, and replace __USERNAME__ with your short username.
+-->
 <plist version="1.0">
 <dict>
 	<key>Label</key>
 	<string>org.torproject.tor</string>
 	<key>ProgramArguments</key>
 	<array>
-        <!-- Replace /opt/local/bin/tor with your tor binary path -->
-	<string>/opt/local/bin/tor</string>
+	<string>/opt/homebrew/bin/tor</string>
 	<string>-f</string>
-        <!-- Replace /opt/local/etc/tor/ with your tor data directory path  -->
-	<string>/opt/local/etc/tor/torrc</string>
+	<string>/opt/homebrew/etc/tor/torrc</string>
 	</array>
-        <!-- Replace /opt/local/etc/tor/ with your tor data directory path  -->
 	<key>StandardOutPath</key>
-	<string>/opt/local/etc/tor/stdout.log</string>
-        <!-- Replace /opt/local/etc/tor/ with your tor data directory path  -->
+	<string>/opt/homebrew/var/log/tor/stdout.log</string>
 	<key>StandardErrorPath</key>
-	<string>/opt/local/etc/tor/stderr.log</string>
-        <!-- Replace doug with your short OS X username -->
+	<string>/opt/homebrew/var/log/tor/stderr.log</string>
+	<!-- Replace __USERNAME__ with your short username -->
 	<key>UserName</key>
-	<string>doug</string>
-        <!-- How long OS X will give tor to shut down connections before restarting it. Decrease for faster reboots, increase to allow users to find other relays. -->
+	<string>__USERNAME__</string>
+	<!-- How long macOS will give tor to shut down connections before restarting it. -->
 	<key>ExitTimeOut</key>
 	<integer>60</integer>
-        <!-- How much CPU priority tor will get, from 20 (low) to -20 (high) -->
+	<!-- CPU priority: 20 (low) to -20 (high) -->
 	<key>Nice</key>
 	<integer>15</integer>
 	<key>HardResourceLimits</key>
 	<dict>
-        <!-- How many connections tor can make, for a relay, this should be at least the number of relays in the network, or around 8000 -->
-        <!-- You may also need to add "kern.maxfiles=20480" to /etc/sysctl.conf -->
+	<!-- Max open connections; for a relay this should be high (you may also need
+	     kern.maxfiles=20480 in /etc/sysctl.conf). -->
 	<key>NumberOfFiles</key>
 	<integer>10240</integer>
 	</dict>
 	<key>RunAtLoad</key>
 	<true/>
-	<key>KeepAlive</key>                                                          
+	<key>KeepAlive</key>
 	<true/>
 	<key>ProcessType</key>
 	<string>Background</string>
 	<key>LowPriorityIO</key>
 	<true/>
-        <!-- If any keys are not implemented in your version of OS X, please feel free to delete them -->
 </dict>
 </plist>

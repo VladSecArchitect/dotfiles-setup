@@ -127,7 +127,8 @@ defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 # Full keyboard access: Tab works in all controls (e.g. modal dialogs)
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-# Better Bluetooth audio quality
+# Better Bluetooth audio quality (legacy SBC bitpool tweak). Effect is doubtful on modern
+# macOS/codecs (AAC); SBC bitpool is still negotiated, but this key's real impact is unverified.
 defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
 # Key repeat — fast repeat instead of accent popup
@@ -631,7 +632,10 @@ defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 # Prevent Spotlight from indexing external volumes mounted under /Volumes
 sudo defaults write /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes" 2>/dev/null || true
 
-# Spotlight: disable web search suggestions
+# Spotlight: category order / disable web suggestions.
+# NOTE: on macOS Sonoma+ Spotlight prefs set via `defaults` are often ignored (cfprefsd
+# caching; the key may only exist after toggling a category in System Settings). If this
+# doesn't take effect, set it in System Settings > Spotlight.
 defaults write com.apple.spotlight orderedItems -array \
     '{"enabled"=1;"name"="APPLICATIONS";}' \
     '{"enabled"=1;"name"="SYSTEM_PREFS";}' \
@@ -674,14 +678,16 @@ sudo systemsetup -setremoteappleevents off 2>/dev/null || true
 # Legacy / Obsolete (kept for reference)
 ###############################################################################
 
-# Enable the debug menu in Address Book (legacy app, pre-Contacts)
-defaults write com.apple.addressbook ABShowDebugMenu -bool true
+# Address Book debug menu — removed when Address Book became Contacts (OS X 10.8, 2012).
+# Kept commented for reference:
+# defaults write com.apple.addressbook ABShowDebugMenu -bool true
 
 # Dashboard was removed in macOS Catalina 10.15 (2019) and dropped from WebKit;
 # "com.apple.dashboard devmode" is a no-op on modern macOS.
 
-# Enable the debug menu in iCal (pre-macOS 10.8 only)
-defaults write com.apple.iCal IncludeDebugMenu -bool true
+# iCal debug menu — stopped working when iCal became Calendar (OS X 10.8, 2012).
+# Kept commented for reference:
+# defaults write com.apple.iCal IncludeDebugMenu -bool true
 
 
 ###############################################################################
@@ -815,13 +821,9 @@ fi
 # Python REPL
 ###############################################################################
 
-echo "==> Deploying Python REPL config..."
-DOTFILES_DIR_PY="$(cd "$(dirname "$0")/.." && pwd)"
-mkdir -p "$HOME/.python"
-ln -sf "$DOTFILES_DIR_PY/python/pythonrc.py" "$HOME/.python/pythonrc.py"
-ln -sf "$DOTFILES_DIR_PY/python/.pythonrc"   "$HOME/.pythonrc"
-echo "Symlinked python/pythonrc.py → ~/.python/pythonrc.py"
-echo "Symlinked python/.pythonrc   → ~/.pythonrc"
+# Python 3.13+ ships a REPL with history + tab-completion built in, so no custom
+# PYTHONSTARTUP script is deployed. ~/.exports sets PYTHON_HISTORY for the history file.
+echo "==> Python REPL: using the built-in Python 3.13+ REPL (no startup script needed)"
 
 
 ###############################################################################

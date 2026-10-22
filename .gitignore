@@ -4,10 +4,9 @@
 
 # General
 # Folder view configuration files
-*.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
-.DS_Store
 Desktop.ini
 
 # Thumbnails
@@ -39,8 +38,19 @@ Icon
 .extra
 .ssh/sockets/
 
-# Compiled Python files
+# Python
 *.pyc
+*.pyo
+__pycache__/
+.venv/
+env/
+.env
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# IDE
+.idea/
 
 # Compiled C++ files
 *.out
