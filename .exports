@@ -124,11 +124,11 @@ export PROMPT_COMMAND="history -a; $PROMPT_COMMAND";
 export JAVA_HOME=$(/usr/libexec/java_home)
 ### Android
 # https://gist.github.com/patrickhammond/4ddbe49a67e5eb1b9c03
-export ANT_HOME=/usr/local/opt/ant
-export MAVEN_HOME=/usr/local/opt/maven
-export GRADLE_HOME=/usr/local/opt/gradle
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
+export ANT_HOME="$HOMEBREW_PREFIX/opt/ant"
+export MAVEN_HOME="$HOMEBREW_PREFIX/opt/maven"
+export GRADLE_HOME="$HOMEBREW_PREFIX/opt/gradle"
+export ANDROID_HOME="$HOMEBREW_PREFIX/opt/android-sdk"
+export ANDROID_NDK_HOME="$HOMEBREW_PREFIX/opt/android-ndk"
 
 
 # export ANDROID_HOME=~/Library/Android/sdk
@@ -136,4 +136,18 @@ export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
 #persisting location for Caskfiles
 export HOMEBREW_CASK_OPTS="--appdir=/Volumes/data/Applications"
 
-export RBENV_ROOT=/usr/local/var/rbenv
+export RBENV_ROOT="$HOMEBREW_PREFIX/var/rbenv"
+
+# --- Tool PATH entries (moved here from ~/.path, which is sourced BEFORE this file) ---
+# Guarded: prepend only directories that actually exist, so empty vars or a
+# missing toolchain never inject junk (a bare "/bin", "/tools") into $PATH.
+for _d in \
+    "$THEOS/bin" \
+    "$ANT_HOME/bin" "$MAVEN_HOME/bin" "$GRADLE_HOME/bin" \
+    "$ANDROID_HOME/platform-tools" "$ANDROID_HOME/cmdline-tools/latest/bin" \
+    "$ANDROID_HOME/tools"; do
+    [ -n "$_d" ] && [ -d "$_d" ] && export PATH="$_d:$PATH"
+done
+unset _d
+# RVM (legacy — consider mise/asdf); append only if present
+[ -d "$HOME/.rvm/bin" ] && export PATH="$PATH:$HOME/.rvm/bin"
