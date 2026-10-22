@@ -17,12 +17,14 @@ Shell configuration and system setup for macOS. Security-oriented profile (AppSe
 | `osx_fixes/osx_post_install.sh` | Full macOS setup script — `defaults write`, `pmset`, Homebrew |
 | `osx_fixes/Brewfile` | Homebrew CLI packages |
 | `osx_fixes/Caskfile` | Homebrew GUI applications |
+| `linux/apt-setup.sh` | Debian/Ubuntu install script (no Homebrew) — CLI/security tools via apt |
+| `firefox/` | arkenfox hardened `user.js` + `user-overrides.js` (see `firefox/README.md`) |
 | `setup.sh` | Bootstrap entry point for a new machine |
 
 ## Installation
 
 ```bash
-git clone <repo> ~/dotfiles
+git clone https://github.com/VladSecArchitect/dotfiles-setup.git ~/dotfiles
 cd ~/dotfiles
 bash setup.sh
 ```
