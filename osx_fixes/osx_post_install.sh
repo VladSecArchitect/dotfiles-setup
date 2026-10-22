@@ -815,13 +815,9 @@ fi
 # Python REPL
 ###############################################################################
 
-echo "==> Deploying Python REPL config..."
-DOTFILES_DIR_PY="$(cd "$(dirname "$0")/.." && pwd)"
-mkdir -p "$HOME/.python"
-ln -sf "$DOTFILES_DIR_PY/python/pythonrc.py" "$HOME/.python/pythonrc.py"
-ln -sf "$DOTFILES_DIR_PY/python/.pythonrc"   "$HOME/.pythonrc"
-echo "Symlinked python/pythonrc.py → ~/.python/pythonrc.py"
-echo "Symlinked python/.pythonrc   → ~/.pythonrc"
+# Python 3.13+ ships a REPL with history + tab-completion built in, so no custom
+# PYTHONSTARTUP script is deployed. ~/.exports sets PYTHON_HISTORY for the history file.
+echo "==> Python REPL: using the built-in Python 3.13+ REPL (no startup script needed)"
 
 
 ###############################################################################
