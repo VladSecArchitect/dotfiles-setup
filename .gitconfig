@@ -1,11 +1,12 @@
 [core]
-    editor = subl -n -w
+    # editor: no hardcode — git uses $VISUAL/$EDITOR (set per-OS in ~/.exports: subl on macOS, nano elsewhere)
     excludesfile = ~/.gitignore
     autocrlf = input
-    pager = delta          # requires: brew install git-delta
+    # pager: delta if installed (brew/apt install git-delta), else plain less — portable
+    pager = "command -v delta >/dev/null 2>&1 && delta || less -FRX"
 
 [interactive]
-    diffFilter = delta --color-only
+    diffFilter = "command -v delta >/dev/null 2>&1 && delta --color-only || cat"
 
 [delta]
     navigate = true
@@ -32,7 +33,8 @@
     untracked = cyan
 
 [credential]
-    helper = osxkeychain
+    # macOS → Keychain; elsewhere → in-memory cache (no plaintext on disk). Portable.
+    helper = "!f() { case \"$(uname -s)\" in Darwin) git-credential-osxkeychain \"$@\" ;; *) git-credential-cache --timeout=3600 \"$@\" ;; esac; }; f"
 
 [status]
     showUntrackedFiles = all
